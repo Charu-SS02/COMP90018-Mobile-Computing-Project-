@@ -1,7 +1,10 @@
 package com.example.findcoffee;
 
 import android.os.Bundle;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
+import com.example.findcoffee.ui.search.SearchView;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,7 +13,13 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import java.util.ArrayList;
+
 public class MainActivity extends AppCompatActivity {
+    ListView myList;
+    ArrayAdapter adapter;
+    ArrayList<String> list1;
+    SearchView mySearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1,list1);
+        myList.setAdapter(adapter);
     }
 
 }
