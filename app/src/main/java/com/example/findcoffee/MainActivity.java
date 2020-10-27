@@ -1,7 +1,9 @@
 package com.example.findcoffee;
 
+import android.content.Intent;
 import android.os.Bundle;
 
+import com.example.findcoffee.search.SearchActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -25,6 +27,9 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
+
+        Intent  search = new Intent(MainActivity.this,SearchActivity.class);
+        this.startActivity(search);
     }
 
 }
