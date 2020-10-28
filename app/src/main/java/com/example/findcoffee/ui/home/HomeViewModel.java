@@ -16,13 +16,14 @@ public class HomeViewModel extends ViewModel {
 //        mText = new MutableLiveData<>();
 //        mText.setValue("This is home fragment");
 //    }
-    public HomeViewModel(String name, String version, int id_, int image) {
+    public HomeViewModel(String name, String version, int coffee_placeholder) {
         this.name = name;
         this.version = version;
-        this.id_ = id_;
-        this.image = image;
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
+        this.image = coffee_placeholder;
+//        this.id_ = id_;
+
+//        mText = new MutableLiveData<>();
+//        mText.setValue("This is home fragment");
     }
 
     public LiveData<String> getText() {

@@ -1,6 +1,7 @@
 package com.example.findcoffee.ui.home;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,7 +15,17 @@ import androidx.lifecycle.ViewModelProviders;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.findcoffee.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 
@@ -32,17 +43,82 @@ public class HomeFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
 
+        RequestQueue queue = Volley.newRequestQueue(getActivity());
         data = new ArrayList<HomeViewModel>();
-        for (int i = 0; i < CoffeeShopData.nameArray.length; i++) {
-            data.add(new HomeViewModel(
-                    CoffeeShopData.nameArray[i],
-                    CoffeeShopData.versionArray[i],
-                    CoffeeShopData.id_[i],
-                    CoffeeShopData.drawableArray[i]
-            ));
-        }
 
-        recyclerView.setAdapter(new CoffeeShopAdapter(data));
+
+        String url ="https://data.melbourne.vic.gov.au/resource/xt2y-tnn9.json?clue_small_area=Carlton";
+        // Request a string response from the provided URL.
+        StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        // Display the first 500 characters of the response string.
+//                    textView.setText("Response is: "+ response.substring(0,500));
+                        JSONArray responseJson;
+                        if (response != null) {
+                            try {
+                                responseJson = new JSONArray(response);
+                                Log.e(responseJson.toString(),"string");
+
+//                                responseJson.length()
+                                for(int i=0;i<responseJson.length();i++)
+                                {
+                                    JSONObject listObject = responseJson.getJSONObject(i);
+                                    String streetAddress = null;
+                                    String trading_name = null;
+                                    if(listObject.has("street_address"))
+                                    {
+                                        streetAddress = listObject.getString("street_address");
+                                    }
+                                    if(listObject.has("trading_name"))
+                                    {
+                                        trading_name = listObject.getString("trading_name");
+                                    }
+
+                                    data.add(new HomeViewModel(
+                                            trading_name,
+                                            streetAddress,
+                                            R.drawable.coffee_placeholder
+                                    ));
+
+                                }
+                                recyclerView.setAdapter(new CoffeeShopAdapter(data));
+
+                            } catch (JSONException e) {
+                                e.printStackTrace();
+                            }
+
+
+
+                        }
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+//            textView.setText("That didn't work!");
+                Log.d("Response", "Did Not work");
+
+            }
+        });
+
+        // Add the request to the RequestQueue.
+        queue.add(stringRequest);
+//
+//        data = new ArrayList<HomeViewModel>();
+//        for (int i = 0; i < CoffeeShopData.nameArray.length; i++) {
+//            data.add(new HomeViewModel(
+//                    CoffeeShopData.nameArray[i],
+//                    CoffeeShopData.versionArray[i],
+//                    CoffeeShopData.id_[i],
+//                    CoffeeShopData.drawableArray[i]
+//            ));
+//        }
+//
+//        recyclerView.setAdapter(new CoffeeShopAdapter(data));
+
+
+
 
         return root;
     }
