@@ -1,4 +1,4 @@
-package com.example.findcoffee.ui.dashboard;
+package com.example.findcoffee.ui.explore;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -14,17 +14,17 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.findcoffee.R;
 
-public class DashboardFragment extends Fragment {
+public class ExploreFragment extends Fragment {
 
-    private DashboardViewModel dashboardViewModel;
+    private ExploreViewModel exploreViewModel;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-        dashboardViewModel =
-                ViewModelProviders.of(this).get(DashboardViewModel.class);
-        View root = inflater.inflate(R.layout.fragment_dashboard, container, false);
-        final TextView textView = root.findViewById(R.id.text_dashboard);
-        dashboardViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
+        exploreViewModel =
+                ViewModelProviders.of(this).get(ExploreViewModel.class);
+        View root = inflater.inflate(R.layout.fragment_explore, container, false);
+        final TextView textView = root.findViewById(R.id.text_explore);
+        exploreViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
             @Override
             public void onChanged(@Nullable String s) {
                 textView.setText(s);
