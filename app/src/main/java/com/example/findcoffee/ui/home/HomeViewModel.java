@@ -12,18 +12,18 @@ public class HomeViewModel extends ViewModel {
     int image;
     private MutableLiveData<String> mText;
 
-    public  HomeViewModel(){
-        mText = new MutableLiveData<>();
-        mText.setValue("This is home fragment");
-    }
-//    public HomeViewModel(String name, String version, int id_, int image) {
-//        this.name = name;
-//        this.version = version;
-//        this.id_ = id_;
-//        this.image = image;
+//    public  HomeViewModel(){
 //        mText = new MutableLiveData<>();
 //        mText.setValue("This is home fragment");
 //    }
+    public HomeViewModel(String name, String version, int id_, int image) {
+        this.name = name;
+        this.version = version;
+        this.id_ = id_;
+        this.image = image;
+        mText = new MutableLiveData<>();
+        mText.setValue("This is home fragment");
+    }
 
     public LiveData<String> getText() {
         return mText;
