@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,10 +26,13 @@ public class CoffeeShopAdapter extends RecyclerView.Adapter<RecyclerViewHolder> 
         return R.layout.coffeeshop_cardview;
     }
 
+
+
+
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
-
+        view.setOnClickListener(new RecyclerViewHolder(view));
         return new RecyclerViewHolder(view);
     }
 
@@ -46,4 +50,6 @@ public class CoffeeShopAdapter extends RecyclerView.Adapter<RecyclerViewHolder> 
     public int getItemCount() {
         return dataSet.size();
     }
+
+
 }

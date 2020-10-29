@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,6 +29,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class HomeFragment extends Fragment {
 
@@ -47,7 +49,7 @@ public class HomeFragment extends Fragment {
         data = new ArrayList<HomeViewModel>();
 
 
-        String url ="https://data.melbourne.vic.gov.au/resource/xt2y-tnn9.json?clue_small_area=Carlton";
+        String url ="https://data.melbourne.vic.gov.au/resource/xt2y-tnn9.json?clue_small_area=Carlton&census_year=2019";
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -56,33 +58,38 @@ public class HomeFragment extends Fragment {
                         // Display the first 500 characters of the response string.
 //                    textView.setText("Response is: "+ response.substring(0,500));
                         JSONArray responseJson;
+
                         if (response != null) {
                             try {
                                 responseJson = new JSONArray(response);
-                                Log.e(responseJson.toString(),"string");
-
 //                                responseJson.length()
+                                ArrayList<Integer> visited = new ArrayList<Integer>(responseJson.length());
                                 for(int i=0;i<responseJson.length();i++)
                                 {
                                     JSONObject listObject = responseJson.getJSONObject(i);
                                     String streetAddress = null;
                                     String trading_name = null;
-                                    if(listObject.has("street_address"))
-                                    {
-                                        streetAddress = listObject.getString("street_address");
-                                    }
-                                    if(listObject.has("trading_name"))
-                                    {
-                                        trading_name = listObject.getString("trading_name");
-                                    }
 
-                                    data.add(new HomeViewModel(
-                                            trading_name,
-                                            streetAddress,
-                                            R.drawable.coffee_placeholder
-                                    ));
-
+                                    int base_property_id = listObject.getInt("base_property_id");
+                                    boolean checkVisited = visited.contains(base_property_id);
+                                    if(! checkVisited){
+                                        visited.add(base_property_id);
+                                        if(listObject.has("street_address"))
+                                        {
+                                            streetAddress = listObject.getString("street_address");
+                                        }
+                                        if(listObject.has("trading_name"))
+                                        {
+                                            trading_name = listObject.getString("trading_name");
+                                        }
+                                        data.add(new HomeViewModel(
+                                                trading_name,
+                                                streetAddress,
+                                                R.drawable.coffee_placeholder
+                                        ));
+                                    }
                                 }
+
                                 recyclerView.setAdapter(new CoffeeShopAdapter(data));
 
                             } catch (JSONException e) {
@@ -104,7 +111,8 @@ public class HomeFragment extends Fragment {
 
         // Add the request to the RequestQueue.
         queue.add(stringRequest);
-//
+
+        //
 //        data = new ArrayList<HomeViewModel>();
 //        for (int i = 0; i < CoffeeShopData.nameArray.length; i++) {
 //            data.add(new HomeViewModel(
@@ -116,6 +124,7 @@ public class HomeFragment extends Fragment {
 //        }
 //
 //        recyclerView.setAdapter(new CoffeeShopAdapter(data));
+
 
 
 
