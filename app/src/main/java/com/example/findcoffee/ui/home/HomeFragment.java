@@ -38,6 +38,7 @@ public class HomeFragment extends Fragment {
     private static RecyclerView recyclerView;
     private static ArrayList<HomeViewModel> data;
     private int area = 1;
+    public RequestQueue queue;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -47,28 +48,34 @@ public class HomeFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
 
-        RequestQueue queue = Volley.newRequestQueue(getActivity());
+        queue = Volley.newRequestQueue(getActivity());
         data = new ArrayList<HomeViewModel>();
-        ArrayList<String> names = null;
-        ArrayList<String> locations = null;
+        ArrayList<String> names = new ArrayList<>();
+        ArrayList<String> locations = new ArrayList<>();
         jsonAPIGetter apiGetter = new jsonAPIGetter();
-        boolean isReady = apiGetter.search("Carlton", area);
-        if(isReady) {
-            names = apiGetter.getTradingNames();
-            locations = apiGetter.getStreetAddress();
-        }
-        if(names!=null) {
-            for (int i = 0; i < names.size();i++){
-                String trading_name = names.get(i);
-                String streetAddress = locations.get(i);
-                data.add(new HomeViewModel(
-                        trading_name,
-                        streetAddress,
-                        R.drawable.coffee_placeholder
-                ));
-            }
-        }
-       /* String url ="https://data.melbourne.vic.gov.au/resource/xt2y-tnn9.json?clue_small_area=Carlton&census_year=2019";
+
+
+
+        apiGetter.search("Hermes Fine Foods", 0, this, 10);
+
+
+//        names = apiGetter.getTradingNames();
+//        locations = apiGetter.getStreetAddress();
+
+
+
+//        if(names.size()>0) {
+//            for (int i = 0; i < names.size();i++){
+//                String trading_name = names.get(i);
+//                String streetAddress = locations.get(i);
+//                data.add(new HomeViewModel(
+//                        trading_name,
+//                        streetAddress,
+//                        R.drawable.coffee_placeholder
+//                ));
+//            }
+//        }
+       /*String url ="https://data.melbourne.vic.gov.au/resource/xt2y-tnn9.json?clue_small_area=Carlton&census_year=2019";
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -126,8 +133,8 @@ public class HomeFragment extends Fragment {
                 Log.d("Response", "Did Not work");
 
             }
-        });*/
-
+        });
+*/
 
 
 
@@ -146,10 +153,6 @@ public class HomeFragment extends Fragment {
 //        }
 //
 //        recyclerView.setAdapter(new CoffeeShopAdapter(data));
-
-
-
-
 
         return root;
     }
@@ -172,4 +175,19 @@ public class HomeFragment extends Fragment {
 //
 //        return root;
 //    }
+    public void drawShop(String name, String address){
+        data.add(new HomeViewModel(
+                name,
+                address,
+                R.drawable.coffee_placeholder
+        ));
+    }
+
+    public static RecyclerView getRecyclerView() {
+        return recyclerView;
+    }
+
+    public static ArrayList<HomeViewModel> getData() {
+        return data;
+    }
 }

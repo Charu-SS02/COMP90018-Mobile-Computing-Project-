@@ -3,9 +3,11 @@ package com.example.findcoffee.ui.home;
 import android.util.Log;
 
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.findcoffee.R;
 
 import org.json.JSONArray;
@@ -23,11 +25,15 @@ public class jsonAPIGetter {
     private float ySearch;
     private JSONArray responseJson;
     private JSONObject coffeeShop;
-    private ArrayList<String> streetAddress;
-    private ArrayList<String> tradingNames;
+    //private ArrayList<String> streetAddress = new ArrayList<>();
+    //private ArrayList<String> tradingNames  = new ArrayList<>();
+    private String streetAddress;
+    private String tradingNames;
 
 
-    public boolean search(String query, int searchType){
+
+    public void search(String query, int searchType, final HomeFragment fragment, final int maxEntries){
+
         String queryType = nameSearch;
         switch(searchType){
             case 1:
@@ -35,6 +41,7 @@ public class jsonAPIGetter {
                 break;
         }
         String url = baseURL+queryType+query;
+        System.out.println(url);
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
@@ -44,32 +51,41 @@ public class jsonAPIGetter {
                                 responseJson = new JSONArray(response);
                                 ArrayList<Integer> visited = new ArrayList<Integer>(responseJson.length());
                                 int shopCount = 0;
-                                for(int i=0;i<responseJson.length();i++)
+                                int i = 0;
+                                while(i < responseJson.length() && shopCount < maxEntries)
                                 {
                                     coffeeShop = responseJson.getJSONObject(i);
                                     int censusYear = coffeeShop.getInt("census_year");
                                     int base_property_id = coffeeShop.getInt("base_property_id");
                                     boolean checkVisited = visited.contains(base_property_id);
+                                    i += 1;
                                     if(! checkVisited){
                                         visited.add(base_property_id);
                                         if(coffeeShop.has("street_address"))
                                         {
-                                            streetAddress.add(coffeeShop.getString("street_address"));
+                                            streetAddress = (coffeeShop.getString("street_address"));
                                         }
                                         if(coffeeShop.has("trading_name"))
                                         {
-                                            tradingNames.add(coffeeShop.getString("trading_name"));
+                                            tradingNames = (coffeeShop.getString("trading_name"));
                                         }
-                                        shopCount += 1;
+
+                                        fragment.drawShop(tradingNames,streetAddress);
+
+                                        shopCount +=1;
                                     }
                                 }
+
+                                fragment.getRecyclerView().setAdapter(new CoffeeShopAdapter(fragment.getData()));
                             }catch(JSONException e){
                                 e.printStackTrace();
                             }
+
                         }else{
+
                             responseJson = null;
-                            streetAddress = null;
-                            tradingNames = null;
+//                            streetAddress.clear();
+//                            tradingNames.clear();
                         }
                     }
                 }, new Response.ErrorListener() {
@@ -81,19 +97,19 @@ public class jsonAPIGetter {
 
             }
         });
-        if(responseJson == null){
-            return false;
-        }
-        else{
-            return true;
-        }
+        fragment.queue.add(stringRequest);
+
     }
 
-    public ArrayList<String> getTradingNames(){
-        return tradingNames;
-    }
+//    public ArrayList<String> getTradingNames(){
+//        System.out.println(tradingNames);
+//        return tradingNames;
+//    }
+//
+//    public ArrayList<String> getStreetAddress() {
+//        return streetAddress;
+//    }
 
-    public ArrayList<String> getStreetAddress() {
-        return streetAddress;
-    }
+
+
 }
