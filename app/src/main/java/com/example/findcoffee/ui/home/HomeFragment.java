@@ -24,6 +24,7 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.findcoffee.R;
 
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -36,6 +37,7 @@ public class HomeFragment extends Fragment {
     private HomeViewModel homeViewModel;
     private static RecyclerView recyclerView;
     private static ArrayList<HomeViewModel> data;
+    private int area = 1;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -47,9 +49,26 @@ public class HomeFragment extends Fragment {
 
         RequestQueue queue = Volley.newRequestQueue(getActivity());
         data = new ArrayList<HomeViewModel>();
-
-
-        String url ="https://data.melbourne.vic.gov.au/resource/xt2y-tnn9.json?clue_small_area=Carlton&census_year=2019";
+        ArrayList<String> names = null;
+        ArrayList<String> locations = null;
+        jsonAPIGetter apiGetter = new jsonAPIGetter();
+        boolean isReady = apiGetter.search("Carlton", area);
+        if(isReady) {
+            names = apiGetter.getTradingNames();
+            locations = apiGetter.getStreetAddress();
+        }
+        if(names!=null) {
+            for (int i = 0; i < names.size();i++){
+                String trading_name = names.get(i);
+                String streetAddress = locations.get(i);
+                data.add(new HomeViewModel(
+                        trading_name,
+                        streetAddress,
+                        R.drawable.coffee_placeholder
+                ));
+            }
+        }
+       /* String url ="https://data.melbourne.vic.gov.au/resource/xt2y-tnn9.json?clue_small_area=Carlton&census_year=2019";
         // Request a string response from the provided URL.
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -107,10 +126,13 @@ public class HomeFragment extends Fragment {
                 Log.d("Response", "Did Not work");
 
             }
-        });
+        });*/
+
+
+
 
         // Add the request to the RequestQueue.
-        queue.add(stringRequest);
+//        queue.add(stringRequest);
 
         //
 //        data = new ArrayList<HomeViewModel>();
