@@ -45,6 +45,7 @@ public class CoffeeShopAdapter extends RecyclerView.Adapter<RecyclerViewHolder> 
         textViewName.setText(dataSet.get(position).getName());
         textViewVersion.setText(dataSet.get(position).getVersion());
 //        imageView.setImageDrawable(dataSet.get(position).getImage());
+
         Picasso.get().load(dataSet.get(position).getImage()).into(holder.imageViewIcon);
 //        imageView.setImageResource(dataSet.get(position).getImage());
     }
