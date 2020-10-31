@@ -1,5 +1,6 @@
 package com.example.findcoffee.ui.home;
 
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,6 +32,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -57,24 +61,37 @@ public class HomeFragment extends Fragment {
         data = new ArrayList<HomeViewModel>();
 //        ArrayList<String> names = new ArrayList<>();
 //        ArrayList<String> locations = new ArrayList<>();
-        jsonAPIGetter apiGetter = new jsonAPIGetter();
+//        jsonAPIGetter apiGetter = new jsonAPIGetter();
+
+
+//        Map<String, String> map = new HashMap<String, String>();
+//        map.put("clue_small_area=", "Carlton");
+////        map.put("trading_name=", "Unibite");
+////        map.put("clue_small_area=", "Carlton");
 
 
         Map<String, String> map = new HashMap<String, String>();
-        map.put("clue_small_area=", "Carlton");
-//        map.put("trading_name=", "Unibite");
-//        map.put("clue_small_area=", "Carlton");
+        map.put("entity_id=", "259");
+        map.put("entity_type=", "city");
+        map.put("establishment_type=", "1");
+        map.put("category=", "6");
 
-        apiGetter.search(map, this, 10);
+
+//        apiGetter.search(map, this, 10);
+
+        zomatoApiGetter zomato = new zomatoApiGetter();
+        zomato.search(map,this,9999);
+
+
 
         return root;
     }
 
-    public void drawShop(String name, String address){
+    public void drawShop(String name, String address, String thumb){
         data.add(new HomeViewModel(
                 name,
                 address,
-                R.drawable.coffee_placeholder
+                thumb
         ));
     }
 

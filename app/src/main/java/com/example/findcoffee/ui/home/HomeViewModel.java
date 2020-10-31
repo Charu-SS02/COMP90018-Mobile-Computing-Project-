@@ -9,14 +9,14 @@ public class HomeViewModel extends ViewModel {
     String name;
     String version;
     int id_;
-    int image;
+    String image;
     private MutableLiveData<String> mText;
 
 //    public  HomeViewModel(){
 //        mText = new MutableLiveData<>();
 //        mText.setValue("This is home fragment");
 //    }
-    public HomeViewModel(String name, String version, int coffee_placeholder) {
+    public HomeViewModel(String name, String version, String coffee_placeholder) {
         this.name = name;
         this.version = version;
         this.image = coffee_placeholder;
@@ -38,7 +38,7 @@ public class HomeViewModel extends ViewModel {
         return version;
     }
 
-    public int getImage() {
+    public String getImage() {
         return image;
     }
 

@@ -73,7 +73,7 @@ public class jsonAPIGetter {
                                             tradingNames = (coffeeShop.getString("trading_name"));
                                         }
 
-                                        fragment.drawShop(tradingNames,streetAddress);
+                                        fragment.drawShop(tradingNames,streetAddress,"test");
 
                                         shopCount +=1;
                                     }

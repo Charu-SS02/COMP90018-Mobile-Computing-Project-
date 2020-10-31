@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.findcoffee.R;
+import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
@@ -43,7 +44,9 @@ public class CoffeeShopAdapter extends RecyclerView.Adapter<RecyclerViewHolder> 
 
         textViewName.setText(dataSet.get(position).getName());
         textViewVersion.setText(dataSet.get(position).getVersion());
-        imageView.setImageResource(dataSet.get(position).getImage());
+//        imageView.setImageDrawable(dataSet.get(position).getImage());
+        Picasso.get().load(dataSet.get(position).getImage()).into(holder.imageViewIcon);
+//        imageView.setImageResource(dataSet.get(position).getImage());
     }
 
     @Override
