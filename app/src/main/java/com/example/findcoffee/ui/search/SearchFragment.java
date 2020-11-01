@@ -1,5 +1,6 @@
 package com.example.findcoffee.ui.search;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -7,12 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
@@ -20,15 +20,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.findcoffee.R;
 import com.example.findcoffee.ui.home.HomeViewModel;
-import com.example.findcoffee.ui.home.zomatoApiGetter;
+import com.example.findcoffee.zomatoApiGetter;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
 
 public class SearchFragment extends Fragment {
@@ -36,7 +34,7 @@ public class SearchFragment extends Fragment {
     private SearchViewModel dashboardViewModel;
     private static RecyclerView recyclerView;
     private static ArrayList<HomeViewModel> data;
-    public RequestQueue queue;
+//    public RequestQueue queue;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -52,7 +50,7 @@ public class SearchFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
 
         data = new ArrayList<HomeViewModel>();
-        queue = Volley.newRequestQueue(getActivity());
+//        queue = Volley.newRequestQueue(getActivity());
 
 
         searchEdit.addTextChangedListener(new TextWatcher() {
@@ -66,6 +64,7 @@ public class SearchFragment extends Fragment {
 
             }
 
+            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
             @Override
             public void afterTextChanged(Editable editable) {
                 String searchInputString = editable.toString();
@@ -82,8 +81,8 @@ public class SearchFragment extends Fragment {
 
 //        apiGetter.search(map, this, 10);
 //
-//                    zomatoApiGetter zomato = new zomatoApiGetter();
-//                    zomato.search(map,this,9999);
+                    zomatoApiGetter zomato = new zomatoApiGetter();
+                    zomato.search(map,getFragmentManager(),9999);
                 }
 
             }

@@ -15,6 +15,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.findcoffee.R;
+import com.example.findcoffee.ui.search.SearchFragment;
+import com.example.findcoffee.zomatoApiGetter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -32,7 +34,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     private static RecyclerView recyclerView;
     private static ArrayList<HomeViewModel> data;
 //    private int area = 1;
-    public RequestQueue queue;
+//    public RequestQueue queue;
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -43,7 +46,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
 
-        queue = Volley.newRequestQueue(getActivity());
+//        queue = Volley.newRequestQueue(getActivity());
         data = new ArrayList<HomeViewModel>();
 //        ArrayList<String> names = new ArrayList<>();
 //        ArrayList<String> locations = new ArrayList<>();
@@ -66,7 +69,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 //        apiGetter.search(map, this, 10);
 
         zomatoApiGetter zomato = new zomatoApiGetter();
-        zomato.search(map,this,9999);
+        zomato.search(map,getFragmentManager(),9999);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);

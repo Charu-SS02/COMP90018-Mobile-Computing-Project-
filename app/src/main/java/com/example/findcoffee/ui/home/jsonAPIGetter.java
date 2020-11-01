@@ -32,6 +32,7 @@ public class jsonAPIGetter {
     private String tradingNames;
 
 
+
     public void search(Map<String, String> searchString, final HomeFragment fragment, final int maxEntries){
 
 //        String queryType = nameSearch;
@@ -100,7 +101,7 @@ public class jsonAPIGetter {
 
             }
         });
-        fragment.queue.add(stringRequest);
+//        fragment.queue.add(stringRequest);
 
     }
 

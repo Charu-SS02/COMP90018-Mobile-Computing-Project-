@@ -1,11 +1,14 @@
 
 
-package com.example.findcoffee.ui.home;
+package com.example.findcoffee;
 
+import android.os.Build;
 import android.util.Log;
 
+import androidx.annotation.RequiresApi;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -15,6 +18,9 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.findcoffee.R;
+import com.example.findcoffee.ui.home.CoffeeShopAdapter;
+import com.example.findcoffee.ui.home.HomeFragment;
+import com.example.findcoffee.ui.search.SearchFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -22,26 +28,23 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class zomatoApiGetter extends FragmentActivity {
 
     private String baseURL = "https://developers.zomato.com/api/v2.1/search?";
-    //    private String areaSearch = "clue_small_area=";
-//    private String nameSearch = "trading_name=";
 //    private float xSearch;
 //    private float ySearch;
     private JSONArray getCafeList;
     private JSONObject coffeeShop;
-    //private ArrayList<String> streetAddress = new ArrayList<>();
-    //private ArrayList<String> tradingNames  = new ArrayList<>();
-//    private String streetAddress;
-//    private String tradingNames;
+
+    public RequestQueue queue;
 
 
-    public void search(Map<String, String> searchString, final HomeFragment fragment, final int maxEntries){
-
-//        String queryType = nameSearch;
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    public void search(Map<String, String> searchString, final FragmentManager fragmentManager, final int maxEntries){
 
         String query = "";
         for (String key : searchString.keySet())
@@ -52,17 +55,39 @@ public class zomatoApiGetter extends FragmentActivity {
 
         String url = baseURL+query;
         System.out.println(url);
+
+        List<Fragment> getFragments = fragmentManager.getFragments();
+
+        String currentFragment = null;
+        HomeFragment homeFragment = null;
+        SearchFragment searchFragment = null;
+
+        for (Fragment frag : getFragments) {
+            if(frag instanceof HomeFragment){
+
+//                Log.d("fraging","Home");
+                currentFragment = "home";
+                queue = Volley.newRequestQueue(Objects.requireNonNull(frag.getActivity()));
+                homeFragment = new HomeFragment();
+            }else{
+                currentFragment = "search";
+                queue = Volley.newRequestQueue(Objects.requireNonNull(frag.getActivity()));
+                searchFragment = new SearchFragment();
+            }
+        }
+
+        final String finalCurrentFragment = currentFragment;
+        final HomeFragment finalHomeFragment = homeFragment;
+        final SearchFragment finalSearchFragment = searchFragment;
+
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response){
+                        Log.d("REsponse","Response");
                         if(response!=null){
-
-
-
                             try{
                                 JSONObject getResponseJSON = new JSONObject(response);
-
 
                                 // Getting JSON Array node
                                 getCafeList = getResponseJSON.getJSONArray("restaurants");
@@ -80,40 +105,24 @@ public class zomatoApiGetter extends FragmentActivity {
                                     JSONObject coffeeShopLocation = coffeeShopDetails.getJSONObject("location");
                                     String address = coffeeShopLocation.getString("address");
 
-//                                    JSONArray coffeeShopLocation = coffeeShop.getJSONArray("location");
-//                                    String address = null;
-//                                    // iterate to jsonArrayData
-//                                    for (int j = 0; j < coffeeShopLocation.length(); j++) {
-//                                        JSONObject coffeeShopLocationObject = coffeeShopLocation.getJSONObject(j);
-//                                        address = coffeeShopLocationObject.getString("address");
-//                                    }
+                                    if(finalCurrentFragment.equals("home")){
 
+                                        finalHomeFragment.drawShop(name,address,getThumb);
+                                    }else{
+                                        finalSearchFragment.drawShop(name,address,getThumb);
 
+                                    }
 
-                                    fragment.drawShop(name,address,getThumb);
-
-//                                    int censusYear = coffeeShop.getInt("census_year");
-//                                    int base_property_id = coffeeShop.getInt("base_property_id");
-//                                    boolean checkVisited = visited.contains(base_property_id);
                                     i += 1;
-//                                    if(! checkVisited){
-//                                        visited.add(base_property_id);
-//                                        if(coffeeShop.has("street_address"))
-//                                        {
-//                                            streetAddress = (coffeeShop.getString("street_address"));
-//                                        }
-//                                        if(coffeeShop.has("trading_name"))
-//                                        {
-//                                            tradingNames = (coffeeShop.getString("trading_name"));
-//                                        }
-//
-//                                        fragment.drawShop(tradingNames,streetAddress);
-//
-//                                        shopCount +=1;
-//                                    }
+
                                 }
 
-                                fragment.getRecyclerView().setAdapter(new CoffeeShopAdapter(fragment.getData()));
+
+                                if(finalCurrentFragment.equals("home")){
+                                    finalHomeFragment.getRecyclerView().setAdapter(new CoffeeShopAdapter(finalHomeFragment.getData()));
+                                }else{
+                                    finalSearchFragment.getRecyclerView().setAdapter(new CoffeeShopAdapter(finalSearchFragment.getData()));
+                                }
                             }catch(JSONException e){
                                 e.printStackTrace();
                             }
@@ -131,7 +140,6 @@ public class zomatoApiGetter extends FragmentActivity {
 //            textView.setText("That didn't work!");
                 Log.d("Response", "Did Not work");
 
-
             }
         }){
             @Override
@@ -140,11 +148,12 @@ public class zomatoApiGetter extends FragmentActivity {
                 params.put("user-key", "d705f8ba814a19da288511430e7f3fb3");
                 params.put("Accept", "application/json");
 
+
                 return params;
+
             }
         };
-        fragment.queue.add(stringRequest);
-
+        queue.add(stringRequest);
     }
 
 //    public ArrayList<String> getTradingNames(){
@@ -159,3 +168,5 @@ public class zomatoApiGetter extends FragmentActivity {
 
 
 }
+
+
