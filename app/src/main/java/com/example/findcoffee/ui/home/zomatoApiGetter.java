@@ -4,6 +4,9 @@ package com.example.findcoffee.ui.home;
 
 import android.util.Log;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentActivity;
+
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -21,7 +24,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class zomatoApiGetter {
+public class zomatoApiGetter extends FragmentActivity {
 
     private String baseURL = "https://developers.zomato.com/api/v2.1/search?";
     //    private String areaSearch = "clue_small_area=";
@@ -84,10 +87,10 @@ public class zomatoApiGetter {
 //                                        JSONObject coffeeShopLocationObject = coffeeShopLocation.getJSONObject(j);
 //                                        address = coffeeShopLocationObject.getString("address");
 //                                    }
-//                                    Log.d("ZOMATO address", address);
+
+
 
                                     fragment.drawShop(name,address,getThumb);
-
 
 //                                    int censusYear = coffeeShop.getInt("census_year");
 //                                    int base_property_id = coffeeShop.getInt("base_property_id");
