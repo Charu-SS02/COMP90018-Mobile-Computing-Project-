@@ -51,6 +51,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         recyclerView = root.findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
+        zomatoApiGetter zomato = new zomatoApiGetter(this);
 
         queue = Volley.newRequestQueue(getActivity());
         data = new ArrayList<HomeViewModel>();
@@ -71,26 +72,28 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
 
 
-        zomatoApiGetter zomato = new zomatoApiGetter(this);
-        zomato.search(map,queue,9999);
 
-        Geocoder coder = new Geocoder(root.getContext());
+        zomato.search(map,queue,10);
+//
+//        Geocoder coder = new Geocoder(root.getContext());
+//
+//        cafeNames.add("Humble Rays");
+//        cafeAddresses.add("71 Bouverie Street, Carlton, Melbourne");
+//
+//        cafeNames.add("Top Paddock");
+//        cafeAddresses.add("658 Church Street, Richmond, Melbourne");
+//
+//        for (int i = 0; i < cafeNames.size(); i++) {
+//            try {
+//                List<Address> address = coder.getFromLocationName(cafeAddresses.get(i), 5);
+//                Address location = address.get(0);
+//                cafeCoordinates.add(new LatLng(location.getLatitude(), location.getLongitude()));
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//        }
 
-        cafeNames.add("Humble Rays");
-        cafeAddresses.add("71 Bouverie Street, Carlton, Melbourne");
 
-        cafeNames.add("Top Paddock");
-        cafeAddresses.add("658 Church Street, Richmond, Melbourne");
-
-        for (int i = 0; i < cafeNames.size(); i++) {
-            try {
-                List<Address> address = coder.getFromLocationName(cafeAddresses.get(i), 5);
-                Address location = address.get(0);
-                cafeCoordinates.add(new LatLng(location.getLatitude(), location.getLongitude()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -107,8 +110,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             );
         }
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(cafeCoordinates.get(0)));
-        googleMap.animateCamera(CameraUpdateFactory.zoomTo(12));
+//        googleMap.moveCamera(CameraUpdateFactory.newLatLng(cafeCoordinates.get(0)));
+//        googleMap.animateCamera(CameraUpdateFactory.zoomTo(12));
     }
 
     public void drawShop(String name, String address, String thumb){
