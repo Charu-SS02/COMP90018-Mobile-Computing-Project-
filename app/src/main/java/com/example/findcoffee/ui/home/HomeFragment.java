@@ -70,6 +70,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         map.put("category=", "6");
 
 
+//        Location getCurrent = (MainActivity).getActivity()
+
 //        apiGetter.search(map, this, 10);
 
         zomatoApiGetter zomato = new zomatoApiGetter();
