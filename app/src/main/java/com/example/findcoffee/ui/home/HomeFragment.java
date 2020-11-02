@@ -1,10 +1,7 @@
 package com.example.findcoffee.ui.home;
 
-import android.location.Location;
-import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.example.findcoffee.MainActivity;
 import com.example.findcoffee.R;
-import com.example.findcoffee.ui.search.SearchFragment;
 import com.example.findcoffee.zomatoApiGetter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -83,17 +76,24 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng sydney = new LatLng(-33.852, 151.211);
-        googleMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .title("Sydney"));
+        ArrayList<LatLng> addressList = new ArrayList<>();
+        ArrayList<String> addressNames = new ArrayList<>();
 
-        LatLng melbourne = new LatLng(-37.852, 141.211);
-        googleMap.addMarker(new MarkerOptions()
-                .position(melbourne)
-                .title("Melbourne"));
+        addressList.add(new LatLng(-33.852, 151.211));
+        addressNames.add("Sydney");
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        addressList.add(new LatLng(-37.852, 141.211));
+        addressNames.add("Melbourne");
+
+        for (int i = 0; i < addressList.size(); i++) {
+            googleMap.addMarker(new MarkerOptions()
+                .position(addressList.get(i))
+                .title(addressNames.get(i))
+            );
+        }
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(addressList.get(0)));
+//        googleMap.animateCamera(CameraUpdateFactory.zoomTo(15));
     }
 
     public void drawShop(String name, String address, String thumb){
