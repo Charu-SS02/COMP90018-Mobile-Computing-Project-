@@ -1,10 +1,9 @@
 package com.example.findcoffee.ui.home;
 
-import android.location.Location;
-import android.location.LocationManager;
+import android.location.Address;
+import android.location.Geocoder;
 import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,11 +14,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.android.volley.RequestQueue;
-import com.android.volley.toolbox.Volley;
-import com.example.findcoffee.MainActivity;
 import com.example.findcoffee.R;
-import com.example.findcoffee.ui.search.SearchFragment;
 import com.example.findcoffee.zomatoApiGetter;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -28,8 +23,10 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback {
@@ -40,6 +37,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 //    private int area = 1;
 //    public RequestQueue queue;
 
+    ArrayList<String> cafeNames = new ArrayList<>();
+    ArrayList<String> cafeAddresses = new ArrayList<>();
+    ArrayList<LatLng> cafeCoordinates = new ArrayList<>();
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -56,12 +56,10 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 //        ArrayList<String> locations = new ArrayList<>();
 //        jsonAPIGetter apiGetter = new jsonAPIGetter();
 
-
 //        Map<String, String> map = new HashMap<String, String>();
 //        map.put("clue_small_area=", "Carlton");
 ////        map.put("trading_name=", "Unibite");
 ////        map.put("clue_small_area=", "Carlton");
-
 
         Map<String, String> map = new HashMap<String, String>();
         map.put("entity_id=", "259");
@@ -70,12 +68,27 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         map.put("category=", "6");
 
 
-//        Location getCurrent = (MainActivity).getActivity()
-
-//        apiGetter.search(map, this, 10);
 
         zomatoApiGetter zomato = new zomatoApiGetter();
         zomato.search(map,getFragmentManager(),9999);
+
+        Geocoder coder = new Geocoder(root.getContext());
+
+        cafeNames.add("Humble Rays");
+        cafeAddresses.add("71 Bouverie Street, Carlton, Melbourne");
+
+        cafeNames.add("Top Paddock");
+        cafeAddresses.add("658 Church Street, Richmond, Melbourne");
+
+        for (int i = 0; i < cafeNames.size(); i++) {
+            try {
+                List<Address> address = coder.getFromLocationName(cafeAddresses.get(i), 5);
+                Address location = address.get(0);
+                cafeCoordinates.add(new LatLng(location.getLatitude(), location.getLongitude()));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
 
         SupportMapFragment mapFragment = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
@@ -85,17 +98,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        LatLng sydney = new LatLng(-33.852, 151.211);
-        googleMap.addMarker(new MarkerOptions()
-                .position(sydney)
-                .title("Sydney"));
+        for (int i = 0; i < cafeCoordinates.size(); i++) {
+            googleMap.addMarker(new MarkerOptions()
+                    .position(cafeCoordinates.get(i))
+                    .title(cafeNames.get(i))
+            );
+        }
 
-        LatLng melbourne = new LatLng(-37.852, 141.211);
-        googleMap.addMarker(new MarkerOptions()
-                .position(melbourne)
-                .title("Melbourne"));
-
-        googleMap.moveCamera(CameraUpdateFactory.newLatLng(sydney));
+        googleMap.moveCamera(CameraUpdateFactory.newLatLng(cafeCoordinates.get(0)));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(12));
     }
 
     public void drawShop(String name, String address, String thumb){
