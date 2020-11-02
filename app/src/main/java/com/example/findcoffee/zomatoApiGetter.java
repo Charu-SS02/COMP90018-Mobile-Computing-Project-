@@ -3,6 +3,7 @@
 package com.example.findcoffee;
 
 import android.os.Build;
+import android.text.TextWatcher;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
@@ -34,15 +35,20 @@ import java.util.Objects;
 
 public class zomatoApiGetter extends FragmentActivity {
 
-    private Fragment fragment;
+    private HomeFragment homeFragment;
+    private SearchFragment searchFragment;
+    private RequestQueue queue;
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public zomatoApiGetter(HomeFragment homeFragment){
-        this.fragment = homeFragment;
+        this.homeFragment = homeFragment;
+        this.searchFragment = null;
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public zomatoApiGetter(SearchFragment searchFragment){
-        this.fragment = searchFragment;
-    }
+        this.searchFragment = searchFragment;
+        this.homeFragment = null; }
 
     private String baseURL = "https://developers.zomato.com/api/v2.1/search?";
 //    private float xSearch;
@@ -50,11 +56,13 @@ public class zomatoApiGetter extends FragmentActivity {
     private JSONArray getCafeList;
     private JSONObject coffeeShop;
 
-    public RequestQueue queue;
+
+
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void search(Map<String, String> searchString, final FragmentManager fragmentManager, final int maxEntries){
+
 
         String query = "";
         for (String key : searchString.keySet())
@@ -66,28 +74,34 @@ public class zomatoApiGetter extends FragmentActivity {
         String url = baseURL+query;
         System.out.println(url);
 
-        List<Fragment> getFragments = fragmentManager.getFragments();
-
-        String currentFragment = null;
-        HomeFragment homeFragment = null;
-        SearchFragment searchFragment = null;
-
-        for (Fragment frag : getFragments) {
-            if(frag instanceof HomeFragment){
-//                Log.d("fraging","Home");
-                currentFragment = "home";
-                queue = Volley.newRequestQueue(Objects.requireNonNull(frag.getActivity()));
-                homeFragment = new HomeFragment();
-            }else{
-                currentFragment = "search";
-                queue = Volley.newRequestQueue(Objects.requireNonNull(frag.getActivity()));
-                searchFragment = new SearchFragment();
-            }
+        if(homeFragment != null){
+            queue = Volley.newRequestQueue(Objects.requireNonNull(homeFragment.getActivity()));
+        }else if(searchString != null){
+            queue = Volley.newRequestQueue(Objects.requireNonNull(homeFragment.getActivity()));
         }
 
-        final String finalCurrentFragment = currentFragment;
-        final HomeFragment finalHomeFragment = homeFragment;
-        final SearchFragment finalSearchFragment = searchFragment;
+//        List<Fragment> getFragments = fragmentManager.getFragments();
+//
+//        String currentFragment = null;
+//        HomeFragment homeFragment = null;
+//        SearchFragment searchFragment = null;
+//
+//        for (Fragment frag : getFragments) {
+//            if(frag instanceof HomeFragment){
+////                Log.d("fraging","Home");
+//                currentFragment = "home";
+//                queue = Volley.newRequestQueue(Objects.requireNonNull(frag.getActivity()));
+//                homeFragment = new HomeFragment();
+//            }else{
+//                currentFragment = "search";
+//                queue = Volley.newRequestQueue(Objects.requireNonNull(frag.getActivity()));
+//                searchFragment = new SearchFragment();
+//            }
+//        }
+//
+//        final String finalCurrentFragment = currentFragment;
+//        final HomeFragment finalHomeFragment = homeFragment;
+//        final SearchFragment finalSearchFragment = searchFragment;
 
         StringRequest stringRequest = new StringRequest(Request.Method.GET, url,
                 new Response.Listener<String>() {
@@ -108,17 +122,19 @@ public class zomatoApiGetter extends FragmentActivity {
                                 {
                                     coffeeShop = getCafeList.getJSONObject(i);
                                     JSONObject coffeeShopDetails = coffeeShop.getJSONObject("restaurant");
-                                   String name = coffeeShopDetails.getString("name");
+                                    String name = coffeeShopDetails.getString("name");
                                     String getThumb = coffeeShopDetails.getString("thumb");
 
                                     JSONObject coffeeShopLocation = coffeeShopDetails.getJSONObject("location");
                                     String address = coffeeShopLocation.getString("address");
 
-                                    if(finalCurrentFragment.equals("home")){
 
-                                        finalHomeFragment.drawShop(name,address,getThumb);
-                                    }else{
-                                        finalSearchFragment.drawShop(name,address,getThumb);
+
+                                    if(homeFragment != null){
+
+                                        homeFragment.drawShop(name,address,getThumb);
+                                    }else if(searchFragment != null){
+                                        searchFragment.drawShop(name,address,getThumb);
 
                                     }
 
@@ -127,7 +143,7 @@ public class zomatoApiGetter extends FragmentActivity {
                                 }
 
 
-                                if(finalCurrentFragment.equals("home")){
+                                if(homeFragment != null){
                                     HomeFragment.getRecyclerView().setAdapter(new CoffeeShopAdapter(HomeFragment.getData()));
                                 }else{
                                     SearchFragment.getRecyclerView().setAdapter(new CoffeeShopAdapter(SearchFragment.getData()));

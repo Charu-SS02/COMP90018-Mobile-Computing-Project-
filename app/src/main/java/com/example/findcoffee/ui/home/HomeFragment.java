@@ -69,7 +69,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
 //        apiGetter.search(map, this, 10);
 
-        zomatoApiGetter zomato = new zomatoApiGetter();
+        zomatoApiGetter zomato = new zomatoApiGetter(this);
         zomato.search(map,getFragmentManager(),9999);
 
         Geocoder coder = new Geocoder(root.getContext());
