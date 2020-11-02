@@ -31,11 +31,12 @@ import java.util.Map;
 
 public class SearchFragment extends Fragment {
 
+    private SearchFragment searchFragment = this;
     private SearchViewModel dashboardViewModel;
     private static RecyclerView recyclerView;
     private static ArrayList<HomeViewModel> data;
-//    public RequestQueue queue;
-
+    public RequestQueue queue;
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         dashboardViewModel =
@@ -48,7 +49,8 @@ public class SearchFragment extends Fragment {
         recyclerView = root.findViewById(R.id.recycler_Search);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
-
+        final zomatoApiGetter zomato = new zomatoApiGetter(searchFragment);
+        queue = Volley.newRequestQueue(getActivity());
         data = new ArrayList<HomeViewModel>();
 //        queue = Volley.newRequestQueue(getActivity());
 
@@ -64,7 +66,7 @@ public class SearchFragment extends Fragment {
 
             }
 
-            @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+
             @Override
             public void afterTextChanged(Editable editable) {
                 String searchInputString = editable.toString();
@@ -83,9 +85,9 @@ public class SearchFragment extends Fragment {
 
 
 //        apiGetter.search(map, this, 10);
-//
-                    zomatoApiGetter zomato = new zomatoApiGetter();
-                    zomato.search(map,getFragmentManager(),9999);
+
+
+                    zomato.search(map,queue,9999);
                 }
 
             }

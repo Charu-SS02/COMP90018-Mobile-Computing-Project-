@@ -14,6 +14,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.findcoffee.R;
 import com.example.findcoffee.zomatoApiGetter;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -35,7 +37,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     private static RecyclerView recyclerView;
     private static ArrayList<HomeViewModel> data;
 //    private int area = 1;
-//    public RequestQueue queue;
+    public RequestQueue queue;
 
     ArrayList<String> cafeNames = new ArrayList<>();
     ArrayList<String> cafeAddresses = new ArrayList<>();
@@ -50,7 +52,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
 
-//        queue = Volley.newRequestQueue(getActivity());
+        queue = Volley.newRequestQueue(getActivity());
         data = new ArrayList<HomeViewModel>();
 //        ArrayList<String> names = new ArrayList<>();
 //        ArrayList<String> locations = new ArrayList<>();
@@ -69,8 +71,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
 
 
-        zomatoApiGetter zomato = new zomatoApiGetter();
-        zomato.search(map,getFragmentManager(),9999);
+        zomatoApiGetter zomato = new zomatoApiGetter(this);
+        zomato.search(map,queue,9999);
 
         Geocoder coder = new Geocoder(root.getContext());
 
