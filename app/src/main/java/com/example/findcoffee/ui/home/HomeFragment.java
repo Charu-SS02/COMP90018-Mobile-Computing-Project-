@@ -106,6 +106,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         }
 
         googleMap.moveCamera(CameraUpdateFactory.newLatLng(cafeCoordinates.get(0)));
+        googleMap.animateCamera(CameraUpdateFactory.zoomTo(12));
     }
 
     public void drawShop(String name, String address, String thumb){
