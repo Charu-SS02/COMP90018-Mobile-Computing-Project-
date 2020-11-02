@@ -21,7 +21,6 @@
         android:id="@+id/recycler_Search"
         android:layout_width="409dp"
         android:layout_height="684dp"
-        app:layout_constraintBottom_toTopOf="@+id/editTextSearch"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"

@@ -25,10 +25,6 @@ public class CoffeeShopAdapter extends RecyclerView.Adapter<RecyclerViewHolder> 
         return R.layout.coffeeshop_cardview;
     }
 
-
-
-
-
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);

@@ -19,6 +19,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.findcoffee.R;
+import com.example.findcoffee.ui.explore.ExploreFragment;
 import com.example.findcoffee.ui.home.CoffeeShopAdapter;
 import com.example.findcoffee.ui.home.HomeFragment;
 import com.example.findcoffee.ui.search.SearchFragment;
@@ -37,16 +38,27 @@ public class zomatoApiGetter extends FragmentActivity {
 
     private HomeFragment homeFragment;
     private SearchFragment searchFragment;
+    private ExploreFragment exploreFragment;
     private RequestQueue queue;
 
     public zomatoApiGetter(HomeFragment homeFragment){
         this.homeFragment = homeFragment;
         this.searchFragment = null;
+        this.exploreFragment = null;
     }
 
     public zomatoApiGetter(SearchFragment searchFragment){
         this.searchFragment = searchFragment;
-        this.homeFragment = null; }
+        this.homeFragment = null;
+        this.exploreFragment = null;
+    }
+
+    public zomatoApiGetter(ExploreFragment exploreFragment){
+        this.searchFragment = null;
+        this.homeFragment = null;
+        this.exploreFragment = exploreFragment;
+    }
+
 
     private String baseURL = "https://developers.zomato.com/api/v2.1/search?";
 //    private float xSearch;
@@ -129,6 +141,9 @@ public class zomatoApiGetter extends FragmentActivity {
                                     }else if(searchFragment != null){
                                         searchFragment.drawShop(name,address,getThumb);
 
+                                    }else if(exploreFragment != null){
+                                        exploreFragment.drawShop(name,address,getThumb);
+
                                     }
 
                                     i += 1;
@@ -138,8 +153,11 @@ public class zomatoApiGetter extends FragmentActivity {
 
                                 if(homeFragment != null){
                                     HomeFragment.getRecyclerView().setAdapter(new CoffeeShopAdapter(HomeFragment.getData()));
-                                }else{
+                                }else if(searchFragment != null){
                                     SearchFragment.getRecyclerView().setAdapter(new CoffeeShopAdapter(SearchFragment.getData()));
+                                }else if(exploreFragment != null){
+                                    ExploreFragment.getRecyclerView().setAdapter(new CoffeeShopAdapter(ExploreFragment.getData()));
+
                                 }
                             }catch(JSONException e){
                                 e.printStackTrace();
