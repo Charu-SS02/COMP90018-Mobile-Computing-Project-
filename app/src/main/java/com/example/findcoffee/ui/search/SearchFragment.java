@@ -78,6 +78,9 @@ public class SearchFragment extends Fragment {
                     map.put("establishment_type=", "1");
                     map.put("category=", "6");
 
+                    map.put("q=", searchInputString);
+                    map.put("radius=", "5000");
+
 
 //        apiGetter.search(map, this, 10);
 //

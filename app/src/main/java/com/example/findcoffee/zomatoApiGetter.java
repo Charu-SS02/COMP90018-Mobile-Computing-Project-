@@ -64,7 +64,6 @@ public class zomatoApiGetter extends FragmentActivity {
 
         for (Fragment frag : getFragments) {
             if(frag instanceof HomeFragment){
-
 //                Log.d("fraging","Home");
                 currentFragment = "home";
                 queue = Volley.newRequestQueue(Objects.requireNonNull(frag.getActivity()));

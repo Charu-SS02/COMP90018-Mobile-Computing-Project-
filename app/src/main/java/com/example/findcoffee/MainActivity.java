@@ -4,8 +4,6 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
-import android.location.LocationListener;
-import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
@@ -34,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
     private FusedLocationProviderClient fusedLocationClient;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 2;
     private LocationAddressResultReceiver addressResultReceiver;
-    private Location currentLocation;
+    public Location currentLocation;
     private LocationCallback locationCallback;
 
 
@@ -82,15 +80,15 @@ public class MainActivity extends AppCompatActivity {
         }
     }
     @SuppressWarnings("MissingPermission")
-    private void getAddress() {
+    public Location getAddress() {
         if (!Geocoder.isPresent()) {
             Toast.makeText(MainActivity.this, "Can't find current address, ",
                     Toast.LENGTH_SHORT).show();
-            return;
+            return null;
         }
         Log.d("add_receiver","Addreess = "+addressResultReceiver);
         Log.d("add_location","Location = "+currentLocation);
-
+        return currentLocation;
 
     }
     @Override
@@ -105,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-}
+    }
 
     private class LocationAddressResultReceiver extends ResultReceiver {
         LocationAddressResultReceiver(Handler handler) {

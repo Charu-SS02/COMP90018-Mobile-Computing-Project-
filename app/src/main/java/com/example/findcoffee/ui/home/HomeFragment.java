@@ -1,7 +1,10 @@
 package com.example.findcoffee.ui.home;
 
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.example.findcoffee.MainActivity;
 import com.example.findcoffee.R;
 import com.example.findcoffee.ui.search.SearchFragment;
 import com.example.findcoffee.zomatoApiGetter;
