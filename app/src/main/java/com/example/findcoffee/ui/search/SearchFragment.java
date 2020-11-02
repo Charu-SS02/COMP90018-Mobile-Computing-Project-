@@ -35,7 +35,7 @@ public class SearchFragment extends Fragment {
     private SearchViewModel dashboardViewModel;
     private static RecyclerView recyclerView;
     private static ArrayList<HomeViewModel> data;
-//    public RequestQueue queue;
+    public RequestQueue queue;
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -50,6 +50,7 @@ public class SearchFragment extends Fragment {
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
         final zomatoApiGetter zomato = new zomatoApiGetter(searchFragment);
+        queue = Volley.newRequestQueue(getActivity());
         data = new ArrayList<HomeViewModel>();
 //        queue = Volley.newRequestQueue(getActivity());
 
@@ -86,7 +87,7 @@ public class SearchFragment extends Fragment {
 //        apiGetter.search(map, this, 10);
 
 
-                    zomato.search(map,getFragmentManager(),9999);
+                    zomato.search(map,queue,9999);
                 }
 
             }

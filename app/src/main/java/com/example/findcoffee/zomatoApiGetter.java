@@ -39,13 +39,11 @@ public class zomatoApiGetter extends FragmentActivity {
     private SearchFragment searchFragment;
     private RequestQueue queue;
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public zomatoApiGetter(HomeFragment homeFragment){
         this.homeFragment = homeFragment;
         this.searchFragment = null;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public zomatoApiGetter(SearchFragment searchFragment){
         this.searchFragment = searchFragment;
         this.homeFragment = null; }
@@ -61,7 +59,7 @@ public class zomatoApiGetter extends FragmentActivity {
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
-    public void search(Map<String, String> searchString, final FragmentManager fragmentManager, final int maxEntries){
+    public void search(Map<String, String> searchString, RequestQueue queue, final int maxEntries){
 
 
         String query = "";
@@ -74,11 +72,6 @@ public class zomatoApiGetter extends FragmentActivity {
         String url = baseURL+query;
         System.out.println(url);
 
-        if(homeFragment != null){
-            queue = Volley.newRequestQueue(Objects.requireNonNull(homeFragment.getActivity()));
-        }else if(searchString != null){
-            queue = Volley.newRequestQueue(Objects.requireNonNull(homeFragment.getActivity()));
-        }
 
 //        List<Fragment> getFragments = fragmentManager.getFragments();
 //
