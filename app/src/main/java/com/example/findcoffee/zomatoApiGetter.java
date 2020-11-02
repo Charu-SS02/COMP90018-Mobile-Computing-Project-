@@ -34,6 +34,16 @@ import java.util.Objects;
 
 public class zomatoApiGetter extends FragmentActivity {
 
+    private Fragment fragment;
+
+    public zomatoApiGetter(HomeFragment homeFragment){
+        this.fragment = homeFragment;
+    }
+
+    public zomatoApiGetter(SearchFragment searchFragment){
+        this.fragment = searchFragment;
+    }
+
     private String baseURL = "https://developers.zomato.com/api/v2.1/search?";
 //    private float xSearch;
 //    private float ySearch;
@@ -118,9 +128,9 @@ public class zomatoApiGetter extends FragmentActivity {
 
 
                                 if(finalCurrentFragment.equals("home")){
-                                    finalHomeFragment.getRecyclerView().setAdapter(new CoffeeShopAdapter(finalHomeFragment.getData()));
+                                    HomeFragment.getRecyclerView().setAdapter(new CoffeeShopAdapter(HomeFragment.getData()));
                                 }else{
-                                    finalSearchFragment.getRecyclerView().setAdapter(new CoffeeShopAdapter(finalSearchFragment.getData()));
+                                    SearchFragment.getRecyclerView().setAdapter(new CoffeeShopAdapter(SearchFragment.getData()));
                                 }
                             }catch(JSONException e){
                                 e.printStackTrace();

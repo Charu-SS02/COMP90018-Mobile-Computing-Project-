@@ -80,7 +80,7 @@ public class jsonAPIGetter {
                                     }
                                 }
 
-                                fragment.getRecyclerView().setAdapter(new CoffeeShopAdapter(fragment.getData()));
+                                HomeFragment.getRecyclerView().setAdapter(new CoffeeShopAdapter(HomeFragment.getData()));
                             }catch(JSONException e){
                                 e.printStackTrace();
                             }
