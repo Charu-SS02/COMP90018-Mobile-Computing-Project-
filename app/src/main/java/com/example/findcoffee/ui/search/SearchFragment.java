@@ -81,13 +81,13 @@ public class SearchFragment extends Fragment {
                     map.put("category=", "6");
 
                     map.put("q=", searchInputString);
-                    map.put("radius=", "5000");
+                    map.put("radius=", "500");
 
 
 //        apiGetter.search(map, this, 10);
 
 
-                    zomato.search(map,queue,9999);
+                    zomato.search(map,queue,10);
                 }
 
             }
@@ -112,6 +112,10 @@ public class SearchFragment extends Fragment {
                 address,
                 thumb
         ));
+    }
+
+    public void emptyData(){
+        data.clear();
     }
 
     public static RecyclerView getRecyclerView() {
