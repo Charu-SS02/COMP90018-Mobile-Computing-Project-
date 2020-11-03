@@ -3,13 +3,10 @@
 package com.example.findcoffee;
 
 import android.os.Build;
-import android.text.TextWatcher;
 import android.util.Log;
 
 import androidx.annotation.RequiresApi;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentActivity;
-import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -17,8 +14,6 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
-import com.example.findcoffee.R;
 import com.example.findcoffee.ui.explore.ExploreFragment;
 import com.example.findcoffee.ui.home.CoffeeShopAdapter;
 import com.example.findcoffee.ui.home.HomeFragment;
@@ -30,9 +25,7 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 public class zomatoApiGetter extends FragmentActivity {
 
