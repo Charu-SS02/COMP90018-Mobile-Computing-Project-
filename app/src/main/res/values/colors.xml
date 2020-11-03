@@ -3,4 +3,5 @@
     <color name="colorPrimary">#EE001C</color>
     <color name="colorPrimaryDark">#B35400</color>
     <color name="colorAccent">#DAAB03</color>
+    <color name="cardBackground">#EEE</color>
 </resources>
