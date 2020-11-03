@@ -61,6 +61,8 @@ public class ExploreFragment extends Fragment {
         map.put("entity_type=", "city");
         map.put("establishment_type=", "1");
         map.put("category=", "6");
+        //sorting by rating
+        map.put("sort=", "rating");
 
 
 

@@ -68,10 +68,12 @@ public class zomatoApiGetter extends FragmentActivity {
 
 
         String query = "";
+        Log.d("CurrentLoca",""+searchString);
         for (String key : searchString.keySet())
         {
             String value = searchString.get(key);
             query = query+key+value+"&";
+
         }
 
         String url = baseURL+query;

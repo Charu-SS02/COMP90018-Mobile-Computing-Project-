@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -42,25 +43,37 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.security.auth.callback.Callback;
+
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
 //    private HomeViewModel homeViewModel;
     private static RecyclerView recyclerView;
     private static ArrayList<HomeViewModel> data;
+    static ProgressBar bar;
 //    private int area = 1;
     public RequestQueue queue;
+
+    double currentLong;
+
+    double currentLat;
 
     ArrayList<String> cafeNames = new ArrayList<>();
     ArrayList<String> cafeAddresses = new ArrayList<>();
     ArrayList<LatLng> cafeCoordinates = new ArrayList<>();
 
     GoogleMap mGoogleMap;
-    SupportMapFragment mapFrag;
+    static SupportMapFragment mapFrag;
     LocationRequest mLocationRequest;
     Location mLastLocation;
     Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
     Geocoder coder;
+
+
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -70,24 +83,22 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         recyclerView = root.findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
-        zomatoApiGetter zomato = new zomatoApiGetter(this);
+        final zomatoApiGetter zomato = new zomatoApiGetter(this);
 
         queue = Volley.newRequestQueue(getActivity());
         data = new ArrayList<HomeViewModel>();
-//        ArrayList<String> names = new ArrayList<>();
-//        ArrayList<String> locations = new ArrayList<>();
-//        jsonAPIGetter apiGetter = new jsonAPIGetter();
 
-//        Map<String, String> map = new HashMap<String, String>();
-//        map.put("clue_small_area=", "Carlton");
-////        map.put("trading_name=", "Unibite");
-////        map.put("clue_small_area=", "Carlton");
-
-        Map<String, String> map = new HashMap<String, String>();
+        final Map<String, String> map = new HashMap<String, String>();
         map.put("entity_id=", "259");
         map.put("entity_type=", "city");
         map.put("establishment_type=", "1");
         map.put("category=", "6");
+        map.put("radius=", "500");
+
+        //sorting by real distance
+        map.put("sort=", "real_distance");
+        //location added below
+
 
         coder = new Geocoder(root.getContext());
 
@@ -97,7 +108,30 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         assert mapFrag != null;
         mapFrag.getMapAsync(this);
 
-        zomato.search(map, queue,100);
+
+        bar = root.findViewById(R.id.progressBar);
+        bar.setVisibility(VISIBLE);
+        mapFrag.getView().setVisibility(GONE);
+        recyclerView.setVisibility(GONE);
+
+
+
+        new android.os.Handler().postDelayed(
+                new Runnable() {
+                    public void run() {
+
+                        if(currentLong == 0.0 && currentLat == 0.0){
+                            new android.os.Handler().postDelayed(this, 300);
+                        }else{
+                            map.put("lon=", currentLong+"&lat="+currentLat);
+                            zomato.search(map, queue,100);
+                        }
+
+                    }
+                },
+                300);
+
+
 
         return root;
     }
@@ -105,7 +139,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
-        Log.d("Tlocation","onMapReady");
         mGoogleMap = googleMap;
 
         mLocationRequest = new LocationRequest();
@@ -122,7 +155,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onPause() {
-        Log.d("Tlocation","onPause");
         super.onPause();
 
         //stop location updates when Activity is no longer active
@@ -134,7 +166,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
-            Log.d("Tlocation","mLocationCallback");
             List<Location> locationList = locationResult.getLocations();
             if (locationList.size() > 0) {
                 //The last location in the list is the newest
@@ -147,6 +178,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
                 //Place current location marker
                 LatLng latLng = new LatLng(location.getLatitude(), location.getLongitude());
+                currentLong = location.getLongitude();
+
+                currentLat = location.getLatitude();
                 MarkerOptions markerOptions = new MarkerOptions();
                 markerOptions.position(latLng);
                 markerOptions.title("Your current location");
@@ -154,7 +188,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
 
                 //move map camera
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 16));
             }
         }
     };
@@ -185,6 +219,13 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     }
 
     public static ArrayList<HomeViewModel> getData() {
+
+        if(! data.isEmpty()){
+            Log.d("getData1",data+"");
+            bar.setVisibility(GONE);
+            recyclerView.setVisibility(VISIBLE);
+            mapFrag.getView().setVisibility(VISIBLE);
+        }
         return data;
     }
 }
