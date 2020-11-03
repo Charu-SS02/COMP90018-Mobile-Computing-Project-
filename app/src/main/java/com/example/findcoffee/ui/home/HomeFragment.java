@@ -60,6 +60,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     Location mLastLocation;
     Marker mCurrLocationMarker;
     FusedLocationProviderClient mFusedLocationClient;
+    Geocoder coder;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -88,31 +89,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         map.put("establishment_type=", "1");
         map.put("category=", "6");
 
-        zomato.search(map,queue,10);
-
-        Geocoder coder = new Geocoder(root.getContext());
-
-        cafeNames.add("Humble Rays");
-        cafeAddresses.add("71 Bouverie Street, Carlton, Melbourne");
-
-        cafeNames.add("Top Paddock");
-        cafeAddresses.add("658 Church Street, Richmond, Melbourne");
-
-        for (int i = 0; i < cafeNames.size(); i++) {
-            try {
-                List<Address> address = coder.getFromLocationName(cafeAddresses.get(i), 5);
-                Address location = address.get(0);
-                cafeCoordinates.add(new LatLng(location.getLatitude(), location.getLongitude()));
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+        coder = new Geocoder(root.getContext());
 
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(root.getContext());
 
         mapFrag = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         assert mapFrag != null;
         mapFrag.getMapAsync(this);
+
+        zomato.search(map, queue,10);
 
         return root;
     }
@@ -130,15 +115,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
         mGoogleMap.setMyLocationEnabled(true);
 
-        for (int i = 0; i < cafeCoordinates.size(); i++) {
-            mGoogleMap.addMarker(new MarkerOptions()
-                    .position(cafeCoordinates.get(i))
-                    .title(cafeNames.get(i))
-            );
-        }
-
-        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(cafeCoordinates.get(0)));
-        mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(12));
+//        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(cafeCoordinates.get(0)));
+//        mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(12));
     }
 
     @Override
@@ -173,7 +151,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 mCurrLocationMarker = mGoogleMap.addMarker(markerOptions);
 
                 //move map camera
-                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 12));
+                mGoogleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 13));
             }
         }
     };
@@ -184,6 +162,19 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 address,
                 thumb
         ));
+
+        try {
+            List<Address> address_obj = coder.getFromLocationName(address, 5);
+            Address location = address_obj.get(0);
+            LatLng coordinates = new LatLng(location.getLatitude(), location.getLongitude());
+
+            mGoogleMap.addMarker(new MarkerOptions()
+                    .position(coordinates)
+                    .title(name)
+            );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     public static RecyclerView getRecyclerView() {
