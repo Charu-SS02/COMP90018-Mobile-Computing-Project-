@@ -25,10 +25,6 @@ public class CoffeeShopAdapter extends RecyclerView.Adapter<RecyclerViewHolder> 
         return R.layout.coffeeshop_cardview;
     }
 
-
-
-
-
     @Override
     public RecyclerViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(viewType, parent, false);
@@ -45,7 +41,11 @@ public class CoffeeShopAdapter extends RecyclerView.Adapter<RecyclerViewHolder> 
         textViewVersion.setText(dataSet.get(position).getVersion());
 //        imageView.setImageDrawable(dataSet.get(position).getImage());
 
-        Picasso.get().load(dataSet.get(position).getImage()).into(holder.imageViewIcon);
+        if (dataSet.get(position).getImage().isEmpty()){
+            holder.imageViewIcon.setImageResource(R.drawable.coffee_placeholder);
+        }else {
+            Picasso.get().load(dataSet.get(position).getImage()).into(holder.imageViewIcon);
+        }
 //        imageView.setImageResource(dataSet.get(position).getImage());
 
     }

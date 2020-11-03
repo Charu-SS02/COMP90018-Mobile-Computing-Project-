@@ -18,6 +18,8 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.toolbox.Volley;
 import com.example.findcoffee.R;
 import com.example.findcoffee.zomatoApiGetter;
 import com.google.android.gms.location.FusedLocationProviderClient;
@@ -46,7 +48,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     private static RecyclerView recyclerView;
     private static ArrayList<HomeViewModel> data;
 //    private int area = 1;
-//    public RequestQueue queue;
+    public RequestQueue queue;
 
     ArrayList<String> cafeNames = new ArrayList<>();
     ArrayList<String> cafeAddresses = new ArrayList<>();
@@ -67,8 +69,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         recyclerView = root.findViewById(R.id.recyclerview);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(root.getContext()));
+        zomatoApiGetter zomato = new zomatoApiGetter(this);
 
-//        queue = Volley.newRequestQueue(getActivity());
+        queue = Volley.newRequestQueue(getActivity());
         data = new ArrayList<HomeViewModel>();
 //        ArrayList<String> names = new ArrayList<>();
 //        ArrayList<String> locations = new ArrayList<>();
@@ -85,17 +88,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         map.put("establishment_type=", "1");
         map.put("category=", "6");
 
-//        apiGetter.search(map, this, 10);
-
-        zomatoApiGetter zomato = new zomatoApiGetter();
-        zomato.search(map,getFragmentManager(),9999);
+        zomato.search(map,queue,10);
 
         Geocoder coder = new Geocoder(root.getContext());
-
-//        for (int i = 0; i < data.size(); i++) {
-//            cafeNames.add(data.get(i).getName());
-//            cafeAddresses.add(data.get(i).getVersion());
-//        }
 
         cafeNames.add("Humble Rays");
         cafeAddresses.add("71 Bouverie Street, Carlton, Melbourne");
