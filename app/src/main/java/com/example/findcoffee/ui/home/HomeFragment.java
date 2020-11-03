@@ -97,7 +97,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         assert mapFrag != null;
         mapFrag.getMapAsync(this);
 
-        zomato.search(map, queue,10);
+        zomato.search(map, queue,100);
 
         return root;
     }
@@ -105,6 +105,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
+        Log.d("Tlocation","onMapReady");
         mGoogleMap = googleMap;
 
         mLocationRequest = new LocationRequest();
@@ -121,6 +122,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     @Override
     public void onPause() {
+        Log.d("Tlocation","onPause");
         super.onPause();
 
         //stop location updates when Activity is no longer active
@@ -132,6 +134,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     LocationCallback mLocationCallback = new LocationCallback() {
         @Override
         public void onLocationResult(LocationResult locationResult) {
+            Log.d("Tlocation","mLocationCallback");
             List<Location> locationList = locationResult.getLocations();
             if (locationList.size() > 0) {
                 //The last location in the list is the newest
