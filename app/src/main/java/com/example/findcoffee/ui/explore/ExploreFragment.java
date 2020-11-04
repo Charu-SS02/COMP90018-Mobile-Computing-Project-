@@ -2,9 +2,11 @@ package com.example.findcoffee.ui.explore;
 
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -26,6 +28,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class ExploreFragment extends Fragment {
 
     private ExploreViewModel exploreViewModel;
@@ -33,6 +38,7 @@ public class ExploreFragment extends Fragment {
     private static ArrayList<HomeViewModel> data;
     //    private int area = 1;
     public RequestQueue queue;
+    static ProgressBar bar;
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -55,6 +61,10 @@ public class ExploreFragment extends Fragment {
 //        map.put("clue_small_area=", "Carlton");
 ////        map.put("trading_name=", "Unibite");
 ////        map.put("clue_small_area=", "Carlton");
+
+        bar = root.findViewById(R.id.progressBar);
+        bar.setVisibility(VISIBLE);
+        recyclerView.setVisibility(GONE);
 
         Map<String, String> map = new HashMap<String, String>();
         map.put("entity_id=", "259");
@@ -91,7 +101,13 @@ public class ExploreFragment extends Fragment {
         return recyclerView;
     }
 
-    public static ArrayList<HomeViewModel> getData() {
+    public static ArrayList<HomeViewModel> getData()
+    {
+        if(! data.isEmpty()){
+            Log.d("getData1",data+"");
+            bar.setVisibility(GONE);
+            recyclerView.setVisibility(VISIBLE);
+        }
         return data;
     }
 }
