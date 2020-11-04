@@ -43,8 +43,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.security.auth.callback.Callback;
-
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
@@ -60,6 +58,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     double currentLong;
 
     double currentLat;
+
+    int radius = 1000;
 
     ArrayList<String> cafeNames = new ArrayList<>();
     ArrayList<String> cafeAddresses = new ArrayList<>();
@@ -205,10 +205,15 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
             Address location = address_obj.get(0);
             LatLng coordinates = new LatLng(location.getLatitude(), location.getLongitude());
 
-            mGoogleMap.addMarker(new MarkerOptions()
-                    .position(coordinates)
-                    .title(name)
-            );
+            float[] dist = new float[1];
+            Location.distanceBetween(location.getLatitude(), location.getLongitude(), currentLat, currentLong, dist);
+
+            if (dist[0] <= radius) {
+                mGoogleMap.addMarker(new MarkerOptions()
+                        .position(coordinates)
+                        .title(name)
+                );
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }
