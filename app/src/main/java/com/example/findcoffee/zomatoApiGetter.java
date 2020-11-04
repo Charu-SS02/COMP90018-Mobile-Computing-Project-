@@ -128,16 +128,31 @@ public class zomatoApiGetter extends FragmentActivity {
                                     JSONObject coffeeShopLocation = coffeeShopDetails.getJSONObject("location");
                                     String address = coffeeShopLocation.getString("address");
 
+                                    String addressLon = coffeeShopLocation.getString("longitude");
+                                    String addressLat = coffeeShopLocation.getString("latitude");
 
+                                    String cuisines = coffeeShopDetails.getString("cuisines");
+
+                                    String featured_image = coffeeShopDetails.getString("featured_image");
+                                    String menu_url = coffeeShopDetails.getString("menu_url");
+
+                                    String photos_url = coffeeShopDetails.getString("photos_url");
+                                    String price_range = coffeeShopDetails.getString("price_range");
+
+                                    String timings = coffeeShopDetails.getString("timings");
+                                    String storeUrl = coffeeShopDetails.getString("url");
+
+
+                                    String events_url = coffeeShopDetails.getString("events_url");
 
                                     if(homeFragment != null){
 
-                                        homeFragment.drawShop(name,address,getThumb);
+                                        homeFragment.drawShop(name,address,getThumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url);
                                     }else if(searchFragment != null){
-                                        searchFragment.drawShop(name,address,getThumb);
+                                        searchFragment.drawShop(name,address,getThumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url);
 
                                     }else if(exploreFragment != null){
-                                        exploreFragment.drawShop(name,address,getThumb);
+                                        exploreFragment.drawShop(name,address,getThumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url);
 
                                     }
 
