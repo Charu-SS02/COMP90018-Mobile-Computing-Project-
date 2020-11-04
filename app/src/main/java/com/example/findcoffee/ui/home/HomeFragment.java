@@ -207,11 +207,11 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         }
     };
 
-    public void drawShop(String name, String address, String thumb){
+    public void drawShop(String name, String address, String thumb,String addressLon,String addressLat,String cuisines,String featured_image,String menu_url, String photos_url,String price_range,String timings,String storeUrl,String events_url){
         data.add(new HomeViewModel(
                 name,
                 address,
-                thumb
+                thumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url
         ));
 
         try {
