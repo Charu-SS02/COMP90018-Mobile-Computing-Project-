@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -29,6 +30,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
+import static android.view.View.GONE;
+import static android.view.View.VISIBLE;
+
 public class SearchFragment extends Fragment {
 
     private SearchFragment searchFragment = this;
@@ -36,6 +40,8 @@ public class SearchFragment extends Fragment {
     private static RecyclerView recyclerView;
     private static ArrayList<HomeViewModel> data;
     public RequestQueue queue;
+    static ProgressBar bar;
+
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -54,6 +60,10 @@ public class SearchFragment extends Fragment {
         data = new ArrayList<HomeViewModel>();
 //        queue = Volley.newRequestQueue(getActivity());
 
+
+//        bar = root.findViewById(R.id.progressBar2);
+//        bar.setVisibility(VISIBLE);
+//        recyclerView.setVisibility(GONE);
 
         searchEdit.addTextChangedListener(new TextWatcher() {
             @Override
@@ -86,7 +96,7 @@ public class SearchFragment extends Fragment {
 
 //        apiGetter.search(map, this, 10);
 
-
+                    data.clear();
                     zomato.search(map,queue,10);
                 }
 
@@ -123,6 +133,11 @@ public class SearchFragment extends Fragment {
     }
 
     public static ArrayList<HomeViewModel> getData() {
+//        if(! data.isEmpty()){
+//            Log.d("getData1",data+"");
+//            bar.setVisibility(GONE);
+//            recyclerView.setVisibility(VISIBLE);
+//        }
         return data;
     }
 }
