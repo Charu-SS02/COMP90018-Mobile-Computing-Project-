@@ -11,7 +11,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "sdk.cammer.common.baidu.map.android_mapcam_sdk"
+        applicationId "com.example.findcoffee.android_mapcam_sdk"
         minSdkVersion project.ext.MIN_SDK_VERSION
         targetSdkVersion project.ext.TARGET_SDK_VERSION
         versionCode 1

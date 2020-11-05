@@ -1,14 +1,18 @@
-package com.example.findcoffee.mapcam;
+package com.example.findcoffee.ui;
 
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.CoordType;
 import com.baidu.mapapi.SDKInitializer;
 
 import android.app.Application;
+import android.content.Intent;
 import android.widget.Toast;
 import map.baidu.ar.init.ArSdkManager;
 import map.baidu.ar.init.MKGeneralListener;
 import map.baidu.ar.utils.ArBDLocation;
+
+import com.example.findcoffee.mapcam.ArActivity;
+import com.example.findcoffee.mapcam.MainActivity;
 import com.example.findcoffee.mapcam.utils.LocSdkClient;
 
 /**
@@ -31,6 +35,7 @@ public class DemoApplication extends Application {
         // 检索模块 自4.3.0起，百度地图SDK所有接口均支持百度坐标和国测局坐标，用此方法设置您使用的坐标类型.
         // 包括BD09LL和GCJ02两种坐标，默认是BD09LL坐标。
         SDKInitializer.setCoordType(CoordType.BD09LL);
+
     }
 
     public static DemoApplication getInstance() {

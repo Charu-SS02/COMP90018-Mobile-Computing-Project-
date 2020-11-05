@@ -1,5 +1,6 @@
 package com.example.findcoffee.ui.arView;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,8 @@ import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProviders;
 
 import com.example.findcoffee.R;
+import com.example.findcoffee.mapcam.ArActivity;
+import com.example.findcoffee.mapcam.MainActivity;
 
 public class ArViewFragment extends Fragment {
 
@@ -32,6 +35,8 @@ public class ArViewFragment extends Fragment {
                 textView.setText(s);
             }
         });
+        Intent intent = new Intent(getActivity(), MainActivity.class);
+        this.startActivity(intent);
         return root;
     }
 
