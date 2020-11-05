@@ -5,7 +5,14 @@
 <!--    <string name="title_search">Search</string>-->
     <string name="title_explore">Explore</string>
     <string name="title_arView">AR View</string>
-<!--    <string name="title_explore">Explore</string>-->
+
 
     <string name="search_hint">Search here</string>
+
+    <string name="app_name_demo">android_arsdk</string>
+    <string name="app_operate">AR 景区 功能展示</string>
+    <string name="app_explore">AR 识楼 功能展示</string>
+    <string name="app_find">集成检索sdk展示发现周边功能</string>
+    <string name="app_custom">自定义单点数据</string>
+    <string name="app_custom_more">自定义多点数据</string>
 </resources>
