@@ -75,6 +75,7 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
                 intent.putExtra("shopUser_rating",  dataSet.get(position).getRating());
 
+
                 context.startActivity(intent);
 //                Log.d("CLCICK","String "+itemView.getContext()+" -- "+position+dataSet.get(position).getImage());
             }

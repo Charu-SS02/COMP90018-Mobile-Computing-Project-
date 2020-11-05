@@ -148,6 +148,18 @@ public class zomatoApiGetter extends FragmentActivity {
                                     JSONObject user_rating = coffeeShopDetails.getJSONObject("user_rating");
                                     String aggregate_rating = user_rating.getString("aggregate_rating");
 
+//                                    JSONArray userPhotos = coffeeShopDetails.getJSONArray("photos");
+//                                    Log.d("Photos",""+userPhotos);
+//                                    String[] userPhotosUrl = new String[0];
+//                                    for(int n = 0; n < userPhotos.length(); n++)
+//                                    {
+//                                        JSONObject userOne = userPhotos.getJSONObject(n);
+//                                        String userOneUrl = userOne.getString("url");
+//                                        userPhotosUrl[i] = userOneUrl;
+//                                    }
+
+
+
 
                                     if(homeFragment != null){
 

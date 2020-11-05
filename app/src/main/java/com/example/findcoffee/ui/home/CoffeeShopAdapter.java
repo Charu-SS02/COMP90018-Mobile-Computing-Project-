@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.findcoffee.CircleTransform;
 import com.example.findcoffee.R;
 import com.squareup.picasso.Picasso;
 
@@ -87,7 +86,7 @@ public class CoffeeShopAdapter extends RecyclerView.Adapter<RecyclerViewHolder> 
             int borderSize = 5;
             int color = Color.BLACK;
             int cornerRadius = 10;
-            Picasso.get().load(dataSet.get(position).getImage()).transform(new CircleTransform(borderSize, cornerRadius, color)).into(holder.imageViewIcon);
+            Picasso.get().load(dataSet.get(position).getImage()).into(holder.imageViewIcon);
         }
 //        imageView.setImageResource(dataSet.get(position).getImage());
 

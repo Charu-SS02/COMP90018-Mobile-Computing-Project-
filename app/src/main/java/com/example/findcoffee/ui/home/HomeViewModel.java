@@ -21,6 +21,7 @@ public class HomeViewModel extends ViewModel {
     String storeUrl;
     String events_url;
     float[] shopDist;
+    String[] userphotosUrl;
     String shop_aggregate_rating;
     private MutableLiveData<String> mText;
 
@@ -44,7 +45,9 @@ public class HomeViewModel extends ViewModel {
         this.events_url = events_url;
         this.shopDist = dist;
 
-        this.shop_aggregate_rating = aggregate_rating;;
+        this.shop_aggregate_rating = aggregate_rating;
+
+//        this.userphotosUrl = photosUrl;
 
 //        this.id_ = id_;
 
@@ -100,6 +103,9 @@ public class HomeViewModel extends ViewModel {
     }
     public float[] getDist(){
         return shopDist;
+    }
+    public String[] photsUrl(){
+        return userphotosUrl;
     }
 
 
