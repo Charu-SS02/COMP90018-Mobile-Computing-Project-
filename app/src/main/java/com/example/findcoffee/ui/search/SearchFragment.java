@@ -98,7 +98,7 @@ public class SearchFragment extends Fragment {
             public void afterTextChanged(Editable editable) {
                 String searchInputString = editable.toString();
                 if(searchInputString.length() >= 3){
-
+                    emptyData();
                     Log.d("Search", searchInputString);
 
                     Map<String, String> map = new HashMap<String, String>();
