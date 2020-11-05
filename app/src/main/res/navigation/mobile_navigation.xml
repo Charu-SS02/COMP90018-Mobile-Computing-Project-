@@ -13,13 +13,21 @@
 
     <fragment
         android:id="@+id/navigation_dashboard"
-        android:name="com.example.findcoffee.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:name="com.example.findcoffee.ui.search.SearchFragment"
+        android:label="@string/title_search"
+        tools:layout="@layout/fragment_search" />
 
     <fragment
         android:id="@+id/navigation_notifications"
-        android:name="com.example.findcoffee.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:name="com.example.findcoffee.ui.explore.ExploreFragment"
+        android:label="@string/title_explore"
+        tools:layout="@layout/fragment_explore" />
+
+
+    <fragment
+        android:id="@+id/navigation_arView"
+        android:name="com.example.findcoffee.ui.arView.ArViewFragment"
+        android:label="@string/title_arView"
+        tools:layout="@layout/fragment_explore" />
+
 </navigation>
