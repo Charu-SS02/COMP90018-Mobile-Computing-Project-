@@ -49,6 +49,18 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
                 intent.putExtra("shopThumb",  dataSet.get(position).getImage());
                 intent.putExtra("shopAddress",  dataSet.get(position).getVersion());
 
+
+                intent.putExtra("shopAddressLon",  dataSet.get(position).getAddressLon());
+                intent.putExtra("shopAddressLat",  dataSet.get(position).getAddressLat());
+                intent.putExtra("shopCuisines",  dataSet.get(position).getCuisines());
+                intent.putExtra("shopFeatured_image",  dataSet.get(position).getFeatured_image());
+                intent.putExtra("shopMenu_url",  dataSet.get(position).getMenu_url());
+                intent.putExtra("shopPhotos_url",  dataSet.get(position).getPhotos_url());
+                intent.putExtra("shopPrice_range",  dataSet.get(position).getPrice_range());
+                intent.putExtra("shopTimings",  dataSet.get(position).getTimings());
+                intent.putExtra("shopStoreUrl",  dataSet.get(position).getStoreUrl());
+                intent.putExtra("shopEvents_url",  dataSet.get(position).getEvents_url());
+
                 context.startActivity(intent);
 //                Log.d("CLCICK","String "+itemView.getContext()+" -- "+position+dataSet.get(position).getImage());
             }

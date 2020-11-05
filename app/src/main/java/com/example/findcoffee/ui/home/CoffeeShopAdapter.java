@@ -1,5 +1,6 @@
 package com.example.findcoffee.ui.home;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,6 +9,7 @@ import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.findcoffee.CircleTransform;
 import com.example.findcoffee.R;
 import com.squareup.picasso.Picasso;
 
@@ -44,7 +46,10 @@ public class CoffeeShopAdapter extends RecyclerView.Adapter<RecyclerViewHolder> 
         if (dataSet.get(position).getImage().isEmpty()){
             holder.imageViewIcon.setImageResource(R.drawable.coffee_placeholder);
         }else {
-            Picasso.get().load(dataSet.get(position).getImage()).into(holder.imageViewIcon);
+            int borderSize = 5;
+            int color = Color.BLACK;
+            int cornerRadius = 10;
+            Picasso.get().load(dataSet.get(position).getImage()).transform(new CircleTransform(borderSize, cornerRadius, color)).into(holder.imageViewIcon);
         }
 //        imageView.setImageResource(dataSet.get(position).getImage());
 
