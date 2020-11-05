@@ -1,4 +1,4 @@
-package sdk.cammer.common.baidu.map.application;
+package com.example.findcoffee.mapcam;
 
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.CoordType;
@@ -9,7 +9,7 @@ import android.widget.Toast;
 import map.baidu.ar.init.ArSdkManager;
 import map.baidu.ar.init.MKGeneralListener;
 import map.baidu.ar.utils.ArBDLocation;
-import sdk.cammer.common.baidu.map.utils.LocSdkClient;
+import com.example.findcoffee.mapcam.utils.LocSdkClient;
 
 /**
  * Ar sdk application

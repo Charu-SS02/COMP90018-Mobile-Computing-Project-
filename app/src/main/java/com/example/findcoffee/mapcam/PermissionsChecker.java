@@ -1,4 +1,4 @@
-package sdk.cammer.common.baidu.map.mapcam;
+package com.example.findcoffee.mapcam;
 
 import android.Manifest;
 import android.content.Context;

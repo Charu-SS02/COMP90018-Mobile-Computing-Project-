@@ -1,20 +1,25 @@
-package sdk.cammer.common.baidu.map.mapcam;
+package com.example.findcoffee.mapcam;
 
-import java.util.ArrayList;
-
+import android.os.Build;
 import android.os.Bundle;
-import androidx.fragment.app.FragmentActivity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.RelativeLayout;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
+import androidx.fragment.app.FragmentActivity;
+
+import java.util.ArrayList;
+
 import map.baidu.ar.ArPageListener;
 import map.baidu.ar.camera.SimpleSensor;
 import map.baidu.ar.camera.find.FindArCamGLView;
 import map.baidu.ar.model.PoiInfoImpl;
 import map.baidu.ar.utils.TypeUtils;
+import com.example.findcoffee.R;
 
 /**
  * Ar展示 Activity
@@ -38,6 +43,7 @@ public class ArActivity extends FragmentActivity implements ArPageListener {
         initView();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.HONEYCOMB)
     private void initView() {
         camRl = (RelativeLayout) findViewById(R.id.cam_rl);
         mCamGLView = (FindArCamGLView) LayoutInflater.from(this).inflate(R.layout.layout_find_cam_view, null);

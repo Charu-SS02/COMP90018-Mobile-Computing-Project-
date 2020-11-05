@@ -1,4 +1,4 @@
-package sdk.cammer.common.baidu.map.utils;
+package com.example.findcoffee.mapcam.utils;
 
 import com.baidu.location.LocationClient;
 import com.baidu.location.LocationClientOption;

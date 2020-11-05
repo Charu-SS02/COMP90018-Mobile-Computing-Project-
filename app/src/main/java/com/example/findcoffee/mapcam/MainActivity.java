@@ -1,4 +1,4 @@
-package sdk.cammer.common.baidu.map.mapcam;
+package com.example.findcoffee.mapcam;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +34,7 @@ import map.baidu.ar.model.ArInfoScenery;
 import map.baidu.ar.model.ArLatLng;
 import map.baidu.ar.model.ArPoiInfo;
 import map.baidu.ar.model.PoiInfoImpl;
+import com.example.findcoffee.R;
 
 /**
  * ArSdk主页面 Activity

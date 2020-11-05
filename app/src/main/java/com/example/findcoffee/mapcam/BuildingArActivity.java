@@ -1,4 +1,4 @@
-package sdk.cammer.common.baidu.map.mapcam;
+package com.example.findcoffee.mapcam;
 
 import android.os.Bundle;
 import androidx.fragment.app.FragmentActivity;
@@ -15,6 +15,7 @@ import map.baidu.ar.camera.explore.BaseArCamGLView;
 import map.baidu.ar.init.ArBuildingResponse;
 import map.baidu.ar.model.ArInfo;
 import map.baidu.ar.utils.TypeUtils;
+import com.example.findcoffee.R;
 
 /**
  * Ar识楼 Activity

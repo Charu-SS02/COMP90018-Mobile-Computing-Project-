@@ -1,15 +1,19 @@
 package com.example.findcoffee;
 
 import android.Manifest;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Geocoder;
 import android.location.Location;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.provider.Settings;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.example.findcoffee.mapcam.PermissionsChecker;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 import androidx.annotation.NonNull;
@@ -52,7 +56,11 @@ public class MainActivity extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
         NavigationUI.setupWithNavController(navView, navController);
-
+        PermissionsChecker permissionsChecker = new PermissionsChecker(this);
+        if (permissionsChecker.lacksPermissions()) {
+            Toast.makeText(this, "缺少权限，请开启权限！", Toast.LENGTH_LONG).show();
+            openSetting();
+        }
         addressResultReceiver = new LocationAddressResultReceiver(new Handler());
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         locationCallback = new LocationCallback() {
@@ -137,6 +145,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         fusedLocationClient.removeLocationUpdates(locationCallback);
+    }
+
+    public void openSetting() {
+        Intent intent = new Intent();
+        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+        Uri uri = Uri.fromParts("package", getPackageName(), null);
+        intent.setData(uri);
+        startActivity(intent);
     }
 }
 
