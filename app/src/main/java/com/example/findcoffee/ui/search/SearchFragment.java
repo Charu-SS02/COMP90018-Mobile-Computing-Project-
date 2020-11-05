@@ -12,7 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,6 +28,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.findcoffee.R;
+import com.example.findcoffee.ui.home.HomeFragment;
 import com.example.findcoffee.ui.home.HomeViewModel;
 import com.example.findcoffee.zomatoApiGetter;
 import com.google.android.gms.maps.model.LatLng;
@@ -46,11 +49,11 @@ public class SearchFragment extends Fragment {
     private static RecyclerView recyclerView;
     private static ArrayList<HomeViewModel> data;
     public RequestQueue queue;
-    static ProgressBar bar;
     double currentLong;
-
     double currentLat;
-    Geocoder coder;
+
+    private static ImageView arrow;
+    private static TextView searcHint;
 
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
@@ -72,6 +75,9 @@ public class SearchFragment extends Fragment {
 //        queue = Volley.newRequestQueue(getActivity());
 
 
+
+        arrow = root.findViewById(R.id.arrow);
+        searcHint = root.findViewById(R.id.searcHint);
 //        bar = root.findViewById(R.id.progressBar2);
 //        bar.setVisibility(VISIBLE);
 //        recyclerView.setVisibility(GONE);
@@ -123,30 +129,21 @@ public class SearchFragment extends Fragment {
         });
 
 
+        currentLat = HomeFragment.currentLat;
+        currentLong = HomeFragment.currentLong;
 
         return root;
     }
 
     public void drawShop(String name, String address, String thumb,String addressLon,String addressLat,String cuisines,String featured_image,String menu_url, String photos_url,String price_range,String timings,String storeUrl,String events_url,String aggregate_rating){
+        float[] dist = new float[1];
+        Location.distanceBetween(Double.parseDouble(addressLat), Double.parseDouble(addressLon), currentLat, currentLong, dist);
 
-        try {
-            List<Address> address_obj = coder.getFromLocationName(address, 5);
-            Address location = address_obj.get(0);
-            LatLng coordinates = new LatLng(location.getLatitude(), location.getLongitude());
-
-            float[] dist = new float[1];
-            Location.distanceBetween(location.getLatitude(), location.getLongitude(), currentLat, currentLong, dist);
-
-
-            data.add(new HomeViewModel(
-                    name,
-                    address,
-                    thumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url,aggregate_rating,dist
-            ));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        data.add(new HomeViewModel(
+                name,
+                address,
+                thumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url,aggregate_rating,dist
+        ));
 //        data.add(new HomeViewModel(
 //                name,
 //                address,
@@ -163,11 +160,11 @@ public class SearchFragment extends Fragment {
     }
 
     public static ArrayList<HomeViewModel> getData() {
-//        if(! data.isEmpty()){
-//            Log.d("getData1",data+"");
-//            bar.setVisibility(GONE);
-//            recyclerView.setVisibility(VISIBLE);
-//        }
+        if(! data.isEmpty()){
+            arrow.setVisibility(GONE);
+            searcHint.setVisibility(GONE);
+
+        }
         return data;
     }
 }
