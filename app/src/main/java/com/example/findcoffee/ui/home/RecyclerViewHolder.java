@@ -49,6 +49,13 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
                 intent.putExtra("shopThumb",  dataSet.get(position).getImage());
                 intent.putExtra("shopAddress",  dataSet.get(position).getVersion());
 
+
+                intent.putExtra("shopAddress",  dataSet.get(position).getVersion());
+
+                intent.putExtra("shopAddress",  dataSet.get(position).getVersion());
+
+                intent.putExtra("shopAddress",  dataSet.get(position).getVersion());
+
                 context.startActivity(intent);
 //                Log.d("CLCICK","String "+itemView.getContext()+" -- "+position+dataSet.get(position).getImage());
             }
