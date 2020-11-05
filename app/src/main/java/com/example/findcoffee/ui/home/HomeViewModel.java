@@ -64,7 +64,42 @@ public class HomeViewModel extends ViewModel {
         return image;
     }
 
+    public String getAddressLon() {
+        return addressLon;
+    }
+    public String getAddressLat() {
+        return addressLat;
+    }
+    public String getCuisines() {
+        return cuisines;
+    }
+    public String getFeatured_image() {
+        return featured_image;
+    }
+    public String getMenu_url() {
+        return menu_url;
+    }
+    public String getPhotos_url() {
+        return photos_url;
+    }
+    public String getPrice_range() {
+        return price_range;
+    }
+    public String getTimings() {
+        return timings;
+    }
+    public String getStoreUrl() {
+        return storeUrl;
+    }
+    public String getEvents_url() {
+        return events_url;
+    }
+
+
+
     public int getId() {
         return id_;
     }
+
+
 }
