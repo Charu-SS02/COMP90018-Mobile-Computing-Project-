@@ -20,13 +20,15 @@ public class HomeViewModel extends ViewModel {
     String timings;
     String storeUrl;
     String events_url;
+    float[] shopDist;
+    String shop_aggregate_rating;
     private MutableLiveData<String> mText;
 
 //    public  HomeViewModel(){
 //        mText = new MutableLiveData<>();
 //        mText.setValue("This is home fragment");
 //    }
-    public HomeViewModel(String name, String version, String coffee_placeholder,String addressLon,String addressLat,String cuisines,String featured_image,String menu_url, String photos_url,String price_range,String timings,String storeUrl,String events_url) {
+    public HomeViewModel(String name, String version, String coffee_placeholder, String addressLon, String addressLat, String cuisines, String featured_image, String menu_url, String photos_url, String price_range, String timings, String storeUrl, String events_url,String aggregate_rating, float[] dist) {
         this.name = name;
         this.version = version;
         this.image = coffee_placeholder;
@@ -40,7 +42,9 @@ public class HomeViewModel extends ViewModel {
         this.timings = timings;
         this.storeUrl = storeUrl;
         this.events_url = events_url;
+        this.shopDist = dist;
 
+        this.shop_aggregate_rating = aggregate_rating;;
 
 //        this.id_ = id_;
 
@@ -93,6 +97,14 @@ public class HomeViewModel extends ViewModel {
     }
     public String getEvents_url() {
         return events_url;
+    }
+    public float[] getDist(){
+        return shopDist;
+    }
+
+
+    public String getRating(){
+        return shop_aggregate_rating;
     }
 
 

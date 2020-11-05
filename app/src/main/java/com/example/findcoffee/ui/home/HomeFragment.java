@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 import com.example.findcoffee.R;
+import com.example.findcoffee.ui.explore.ExploreFragment;
 import com.example.findcoffee.zomatoApiGetter;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
@@ -57,9 +58,9 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 //    private int area = 1;
     public RequestQueue queue;
 
-    double currentLong;
+    public static double currentLong;
 
-    double currentLat;
+    public static  double currentLat;
 
     int radius = 1000;
 
@@ -133,8 +134,6 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 },
                 300);
 
-
-
         return root;
     }
 
@@ -207,12 +206,8 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         }
     };
 
-    public void drawShop(String name, String address, String thumb,String addressLon,String addressLat,String cuisines,String featured_image,String menu_url, String photos_url,String price_range,String timings,String storeUrl,String events_url){
-        data.add(new HomeViewModel(
-                name,
-                address,
-                thumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url
-        ));
+    public void drawShop(String name, String address, String thumb,String addressLon,String addressLat,String cuisines,String featured_image,String menu_url, String photos_url,String price_range,String timings,String storeUrl,String events_url, String aggregate_rating){
+
 
         try {
             List<Address> address_obj = coder.getFromLocationName(address, 5);
@@ -228,6 +223,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                         .title(name)
                 );
             }
+
+            data.add(new HomeViewModel(
+                    name,
+                    address,
+                    thumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url,aggregate_rating,dist
+            ));
         } catch (IOException e) {
             e.printStackTrace();
         }

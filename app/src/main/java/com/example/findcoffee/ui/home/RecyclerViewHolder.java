@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -25,13 +26,25 @@ import java.util.ArrayList;
 public class RecyclerViewHolder extends RecyclerView.ViewHolder {
     TextView textViewName;
     TextView textViewVersion;
+    TextView textViewPriceRange;
+
+    TextView textViewShopDist;
     ImageView imageViewIcon;
+
+    RatingBar userRating;
 
     public RecyclerViewHolder(final View itemView, final ArrayList<HomeViewModel> dataSet) {
         super(itemView);
         this.textViewName = (TextView) itemView.findViewById(R.id.textViewName);
         this.textViewVersion = (TextView) itemView.findViewById(R.id.textViewVersion);
+        this.textViewShopDist = (TextView) itemView.findViewById(R.id.shopDist);
+        this.textViewPriceRange = (TextView) itemView.findViewById(R.id.price_range);
+
         this.imageViewIcon = (ImageView) itemView.findViewById(R.id.imageView);
+
+        this.userRating = (RatingBar) itemView.findViewById(R.id.rating);
+
+
 
 
 
@@ -59,6 +72,8 @@ public class RecyclerViewHolder extends RecyclerView.ViewHolder {
                 intent.putExtra("shopTimings",  dataSet.get(position).getTimings());
                 intent.putExtra("shopStoreUrl",  dataSet.get(position).getStoreUrl());
                 intent.putExtra("shopEvents_url",  dataSet.get(position).getEvents_url());
+
+                intent.putExtra("shopUser_rating",  dataSet.get(position).getRating());
 
                 context.startActivity(intent);
 //                Log.d("CLCICK","String "+itemView.getContext()+" -- "+position+dataSet.get(position).getImage());

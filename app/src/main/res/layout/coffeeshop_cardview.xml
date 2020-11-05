@@ -45,6 +45,7 @@
                     android:textAppearance="?attr/textAppearanceListItem" />
 
                 <TextView
+                    android:id="@+id/price_range"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="$$$"
@@ -85,6 +86,7 @@
                     android:textAppearance="?attr/textAppearanceListItem" />
 
                 <TextView
+                    android:id="@+id/shopDist"
                     android:layout_width="50dp"
                     android:layout_height="wrap_content"
                     android:text="2.5km"

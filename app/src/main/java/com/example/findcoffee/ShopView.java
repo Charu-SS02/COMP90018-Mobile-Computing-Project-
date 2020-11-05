@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -44,9 +45,18 @@ public class ShopView extends AppCompatActivity implements OnMapReadyCallback {
         String shopAddressLat = intent.getStringExtra("shopAddressLat");
 
 
+        String shopshopUser_rating = intent.getStringExtra("shopUser_rating");
+
+
+
         TextView shopName_View = (TextView) findViewById(R.id.textView_shopName);
         TextView shopAddress_View = (TextView) findViewById(R.id.textView_shopAddress);
         ImageView shopThumb_View = (ImageView) findViewById(R.id.image_coffee_thumb);
+
+
+        RatingBar userRating = (RatingBar) findViewById(R.id.ratingBar);
+
+        userRating.setRating(Float.parseFloat(shopshopUser_rating));
 
         shopName_View.setText(shopName);
         shopAddress_View.setText(shopAddress);

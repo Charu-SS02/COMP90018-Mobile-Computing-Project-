@@ -1,5 +1,8 @@
 package com.example.findcoffee.ui.search;
 
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
@@ -25,9 +28,12 @@ import com.android.volley.toolbox.Volley;
 import com.example.findcoffee.R;
 import com.example.findcoffee.ui.home.HomeViewModel;
 import com.example.findcoffee.zomatoApiGetter;
+import com.google.android.gms.maps.model.LatLng;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static android.view.View.GONE;
@@ -41,6 +47,11 @@ public class SearchFragment extends Fragment {
     private static ArrayList<HomeViewModel> data;
     public RequestQueue queue;
     static ProgressBar bar;
+    double currentLong;
+
+    double currentLat;
+    Geocoder coder;
+
 
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -116,12 +127,31 @@ public class SearchFragment extends Fragment {
         return root;
     }
 
-    public void drawShop(String name, String address, String thumb,String addressLon,String addressLat,String cuisines,String featured_image,String menu_url, String photos_url,String price_range,String timings,String storeUrl,String events_url){
-        data.add(new HomeViewModel(
-                name,
-                address,
-                thumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url
-        ));
+    public void drawShop(String name, String address, String thumb,String addressLon,String addressLat,String cuisines,String featured_image,String menu_url, String photos_url,String price_range,String timings,String storeUrl,String events_url,String aggregate_rating){
+
+        try {
+            List<Address> address_obj = coder.getFromLocationName(address, 5);
+            Address location = address_obj.get(0);
+            LatLng coordinates = new LatLng(location.getLatitude(), location.getLongitude());
+
+            float[] dist = new float[1];
+            Location.distanceBetween(location.getLatitude(), location.getLongitude(), currentLat, currentLong, dist);
+
+
+            data.add(new HomeViewModel(
+                    name,
+                    address,
+                    thumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url,aggregate_rating,dist
+            ));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+//        data.add(new HomeViewModel(
+//                name,
+//                address,
+//                thumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url
+//        ));
     }
 
     public void emptyData(){

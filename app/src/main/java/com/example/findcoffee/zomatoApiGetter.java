@@ -145,14 +145,18 @@ public class zomatoApiGetter extends FragmentActivity {
 
                                     String events_url = coffeeShopDetails.getString("events_url");
 
+                                    JSONObject user_rating = coffeeShopDetails.getJSONObject("user_rating");
+                                    String aggregate_rating = user_rating.getString("aggregate_rating");
+
+
                                     if(homeFragment != null){
 
-                                        homeFragment.drawShop(name,address,getThumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url);
+                                        homeFragment.drawShop(name,address,getThumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url,aggregate_rating);
                                     }else if(searchFragment != null){
-                                        searchFragment.drawShop(name,address,getThumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url);
+                                        searchFragment.drawShop(name,address,getThumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url,aggregate_rating);
 
                                     }else if(exploreFragment != null){
-                                        exploreFragment.drawShop(name,address,getThumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url);
+                                        exploreFragment.drawShop(name,address,getThumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url,aggregate_rating);
 
                                     }
 
