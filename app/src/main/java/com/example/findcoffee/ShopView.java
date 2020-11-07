@@ -81,7 +81,7 @@ public class ShopView extends AppCompatActivity implements OnMapReadyCallback {
 //        Picasso.get().load(shopThumb).into(shopThumb_View);
 
         if (shopFeatured_image.isEmpty()){
-            shopThumb_View.setImageResource(R.drawable.coffee_placeholder);
+            shopThumb_View.setImageResource(R.drawable.coffee_cup_placeholder);
         }else {
             int borderSize = 5;
             int color = Color.BLACK;

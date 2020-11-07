@@ -42,9 +42,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         BottomNavigationView navView = findViewById(R.id.nav_view);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
-        getSupportActionBar().setLogo(R.mipmap.coffee_android_black_foreground);
-
-//        getSupportActionBar().setLogo(R.drawable.ic_chocolate);
+        getSupportActionBar().setLogo(R.drawable.coffee_cup_logo);
         getSupportActionBar().setDisplayUseLogoEnabled(true);
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.

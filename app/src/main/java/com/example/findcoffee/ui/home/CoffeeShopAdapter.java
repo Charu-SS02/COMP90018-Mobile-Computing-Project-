@@ -81,7 +81,7 @@ public class CoffeeShopAdapter extends RecyclerView.Adapter<RecyclerViewHolder> 
 //        imageView.setImageDrawable(dataSet.get(position).getImage());
 
         if (dataSet.get(position).getImage().isEmpty()){
-            holder.imageViewIcon.setImageResource(R.drawable.coffee_placeholder);
+            holder.imageViewIcon.setImageResource(R.drawable.coffee_cup_placeholder);
         }else {
             int borderSize = 5;
             int color = Color.BLACK;
