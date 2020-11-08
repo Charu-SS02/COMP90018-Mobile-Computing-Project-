@@ -172,17 +172,19 @@ public class GameFragment extends Fragment {
         private void controlFPS() {
 
             long timeThisFrame = (System.currentTimeMillis() - lastFrameTime);
-            long timeToSleep = 500-timeThisFrame;
-
-            if (timeThisFrame > 0){
-                fps = (int)(1000/ timeThisFrame);
+            long timeToSleep = 100 - timeThisFrame;
+            if (timeThisFrame > 0) {
+                fps = (int) (1000 / timeThisFrame);
             }
-            if (timeToSleep > 0){
+            if (timeToSleep > 0) {
+
                 try {
                     ourThread.sleep(timeToSleep);
-                }catch (InterruptedException e){
-
+                } catch (InterruptedException e) {
+                    //Print an error message to the console
+                    Log.e("error", "failed to load sound files");
                 }
+
             }
 
             lastFrameTime = System.currentTimeMillis();
