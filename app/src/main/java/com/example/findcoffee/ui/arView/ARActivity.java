@@ -30,6 +30,7 @@ import android.widget.Toast;
 import com.example.findcoffee.R;
 import com.example.findcoffee.model.Shop;
 import com.example.findcoffee.model.ShopMapper;
+import com.example.findcoffee.model.User;
 
 import org.json.JSONException;
 
@@ -196,6 +197,11 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
+
+        /**
+         * when sensor change detected, rotation the matrix by using the delta.
+         * TODO: This method will cause huge error when user is rapidly moving.
+         * */
         if (sensorEvent.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
             float[] rotationMatrixFromVector = new float[16];
             float[] rotationMatrix = new float[16];
@@ -231,11 +237,10 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
             Matrix.multiplyMM(rotatedProjectionMatrix, 0, projectionMatrix, 0, rotationMatrix, 0);
             this.arOverlayView.updateRotatedProjectionMatrix(rotatedProjectionMatrix);
 
-            //Heading
             float[] orientation = new float[3];
             getOrientation(rotatedProjectionMatrix, orientation);
             double bearing = Math.toDegrees(orientation[0]) + declination;
-            tvBearing.setText(String.format("Bearing: %s", bearing));
+            tvBearing.setText(String.format("%s", bearing));
         }
     }
 
@@ -298,6 +303,7 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
             arOverlayView.updateCurrentLocation(location);
             tvCurrentLocation.setText(String.format("lat: %s \nlon: %s \naltitude: %s \n",
                     location.getLatitude(), location.getLongitude(), location.getAltitude()));
+            User.getInstance().updateLocation(location);
         }
     }
 

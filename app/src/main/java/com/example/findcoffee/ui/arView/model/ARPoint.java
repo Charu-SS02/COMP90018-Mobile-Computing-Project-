@@ -9,6 +9,11 @@ package com.example.findcoffee.ui.arView.model;
 import android.location.Location;
 
 public class ARPoint {
+
+    /**
+     * This is the ARPoint class, used to save the most important data.
+     * */
+
     Location location;
     String name;
 
@@ -20,10 +25,10 @@ public class ARPoint {
         location.setAltitude(altitude);
     }
 
+    /* Getter */
     public Location getLocation() {
         return location;
     }
-
     public String getName() {
         return name;
     }

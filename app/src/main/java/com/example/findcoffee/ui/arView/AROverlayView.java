@@ -17,12 +17,17 @@ import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.location.Location;
 import android.opengl.Matrix;
+import android.os.Build;
 import android.view.View;
+
+import androidx.annotation.RequiresApi;
+
 import java.util.ArrayList;
 import java.util.List;
 import com.example.findcoffee.R;
 import com.example.findcoffee.model.Shop;
 import com.example.findcoffee.model.ShopMapper;
+import com.example.findcoffee.model.User;
 import com.example.findcoffee.ui.arView.helper.LocationHelper;
 import com.example.findcoffee.ui.arView.model.ARPoint;
 
@@ -54,6 +59,7 @@ public class AROverlayView extends View {
         this.invalidate();
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -101,9 +107,14 @@ public class AROverlayView extends View {
 
                 Rect nameBubbleRect = new Rect(xInt-halfWidth,  yInt-halfHeight, xInt+halfWidth, yInt+halfHeight);
                 canvas.drawBitmap(bubbleBG, null, nameBubbleRect, null);
-                canvas.drawText(shop.getShopName(),  x - (30 * arPoints.get(i).getName().length() / 2), y - 50, paint);
+                canvas.drawText(shop.getShopName(),  x - (30 * shop.getShopName().length() / 2), y - 60, paint);
+
+                paint.setTextSize(paint.getTextSize() * 0.8f);
+                String leftMeter = String.format("%.1f meter", LocationHelper.GeoDistanceCalculation(User.getInstance().getLocation(), arPoints.get(i).getLocation()));
+                canvas.drawText(leftMeter ,  x - (24 * leftMeter.length()  / 2), y, paint);
 
                 paint.setTextSize(paint.getTextSize() * 0.6f);
+                paint.setColor(Color.argb(0.8f,0.5f,0.5f,0.5f));
 
                 // Outdoor and Indoor seats
                 String outdoorSeatsStr;
@@ -117,9 +128,8 @@ public class AROverlayView extends View {
                     indoorSeatsStr  = "Indoor seats: " + shop.getShopIndoorSeatNum();
                 }
 
-                canvas.drawText(outdoorSeatsStr,  x - (18 * outdoorSeatsStr.length() / 2), y + 10, paint);
-                canvas.drawText(indoorSeatsStr ,  x - (18 * indoorSeatsStr.length()  / 2), y + 50, paint);
-
+                canvas.drawText(outdoorSeatsStr,  x - (14 * outdoorSeatsStr.length() / 2), y + 35, paint);
+                canvas.drawText(indoorSeatsStr ,  x - (14 * indoorSeatsStr.length()  / 2), y + 65, paint);
             }
         }
     }
