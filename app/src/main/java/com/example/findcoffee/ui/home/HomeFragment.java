@@ -88,6 +88,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     boolean locationCheck = false;
 
+    public static Fragment newInstance() {
+        HomeFragment homeFragment = new HomeFragment();
+        return homeFragment;
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
