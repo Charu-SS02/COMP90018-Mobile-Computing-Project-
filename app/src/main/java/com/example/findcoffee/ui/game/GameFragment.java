@@ -201,7 +201,7 @@ public class GameFragment extends Fragment {
             snakeAnimView.pause();
             break;
         }
-        getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getActivity().getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
     @Override
