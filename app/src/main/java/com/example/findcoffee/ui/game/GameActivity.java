@@ -1,6 +1,8 @@
 package com.example.findcoffee.ui.game;
 
 import android.app.Activity;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.AssetFileDescriptor;
@@ -21,12 +23,17 @@ import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
+import com.example.findcoffee.MainActivity;
 import com.example.findcoffee.R;
+import com.example.findcoffee.ui.home.HomeFragment;
 
 import java.io.IOException;
 import java.util.Random;
 
-public class GameActivity extends Activity {
+public class GameActivity extends AppCompatActivity {
 
     Canvas canvas;
     SnakeView snakeView;
@@ -329,9 +336,12 @@ public class GameActivity extends Activity {
             snakeView.pause();
 
 
-
-            Intent i = new Intent(this, GameFragment.class);
+//
+            Intent i = new Intent(this, MainActivity.class);
             startActivity(i);
+//            getSupportFragmentManager().beginTransaction().replace(R.id.navigation_home, HomeFragment.newInstance()).commit();
+
+
             finish();
             return true;
         }
