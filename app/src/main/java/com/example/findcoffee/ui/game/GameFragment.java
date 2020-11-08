@@ -55,6 +55,8 @@ public class GameFragment extends Fragment{
     int numFrames  = 6;
     int frameNumber;
 
+    float x1, x2, y1, y2;
+
     int topGap;
     int screenWidth;
     int screenHeight;
@@ -552,7 +554,7 @@ public class GameFragment extends Fragment{
                     break;
 
                 case 1:
-                    snakeX[0] ++;
+                    snakeX[0] --;
                     break;
 
                 case 2:
@@ -560,7 +562,7 @@ public class GameFragment extends Fragment{
                     break;
 
                 case 3:
-                    snakeX[0] --;
+                    snakeX[0] ++;
                     break;
             }
             if(snakeX[0] >= width){
@@ -615,23 +617,32 @@ public class GameFragment extends Fragment{
         }
 
         @Override
-        public boolean onTouchEvent(MotionEvent motionEvent) {
+        public boolean onTouchEvent(MotionEvent e) {
 
-            switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+
+            switch (e.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_DOWN:
+                    x1 = e.getX();
+                    y1 = e.getY();
+                    break;
+
+
                 case MotionEvent.ACTION_UP:
-                    if (motionEvent.getX() >= screenWidth / 2) {
-                        //turn right
-                        direction ++;
-                        if(direction == 4) {//no such direction
-                            //loop back to 0(up)
-                            direction = 0;
-                        }
-                    } else {
-                        //turn left
-                        direction--;
-                        if(direction == -1) {//no such direction
-                            //loop back to 0(up)
+                    x2 = e.getX();
+                    y2 = e.getY();
+                    float xdiff = x1 - x2;
+                    float ydiff = y1 - y2;
+                    if(Math.abs(xdiff)> Math.abs(ydiff)){
+                        if(xdiff > 0 && direction != 3){
+                            direction = 1;
+                        }else if(direction != 1){
                             direction = 3;
+                        }
+                    }else{
+                        if(ydiff > 0 && direction != 2){
+                            direction = 0;
+                        }else if(direction != 0){
+                            direction = 2;
                         }
                     }
             }
