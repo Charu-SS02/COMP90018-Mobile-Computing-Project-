@@ -11,6 +11,10 @@ import com.example.findcoffee.ui.arView.helper.LocationHelper;
  */
 public class User {
 
+    /**
+     * User class is mainly used to store the location of the user for distance calculation.
+     * */
+
     private Location location;
     private double distanceToTarget;
 
@@ -22,6 +26,7 @@ public class User {
 
     public User() {}
 
+    /* updateLocation is called every time the location updated locally. */
     public void updateLocation(Location location) {
         this.location = location;
     }

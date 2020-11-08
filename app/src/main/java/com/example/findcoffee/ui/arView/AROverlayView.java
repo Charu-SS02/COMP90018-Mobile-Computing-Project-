@@ -45,8 +45,21 @@ public class AROverlayView extends View {
         this.context = context;
     }
 
-    public void addShopData(String name, double lat, double lon, double alt) {
-        arPoints.add(new ARPoint(name, lat, lon, alt));
+    /* Add shop data into the live render */
+    public void addShopData(Shop shop) {
+        for (ARPoint arPoint: arPoints) {
+            if (arPoint.getName().equals(shop.getShopName())) {
+                return;
+            }
+        }
+        arPoints.add(
+                new ARPoint(
+                        shop.getShopName(),
+                        shop.getShopAddressLat(),
+                        shop.getShopAddressLon(),
+                        shop.getShopAddressAlt()
+                )
+        );
     }
 
     public void updateRotatedProjectionMatrix(float[] rotatedProjectionMatrix) {
