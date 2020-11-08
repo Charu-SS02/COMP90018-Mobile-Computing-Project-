@@ -1,66 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:orientation="horizontal"
+    android:layout_marginBottom="5dp"
     android:tag="cards main container">
 
-    <androidx.cardview.widget.CardView
-        xmlns:card_view="https://schemas.android.com/apk/res-auto"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        card_view:cardCornerRadius="10dp"
-        card_view:cardElevation="5dp"
-        android:layout_marginTop="5dp"
-        android:layout_marginBottom="5dp" >
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:scaleType="centerInside"
+            android:padding="10dp"/>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            >
-
-            <ImageView
-                android:id="@+id/imageView"
-                android:tag="image_tag"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:layout_weight="1"
-                android:src="@drawable/ic_launcher"/>
-
+            android:orientation="vertical">
             <LinearLayout
-                android:layout_width="0dp"
+                android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="12dp"
-                android:layout_weight="2"
-                android:orientation="vertical"
-                >
+
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="5dp">
 
                 <TextView
                     android:id="@+id/textViewName"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
-                    android:text="Android Name"
-                    android:textAppearance="?android:attr/textAppearanceLarge"/>
+                    android:text="CoffeShop Name"
+
+                    android:gravity="left"
+                    android:layout_weight="1"
+                    android:textAppearance="?attr/textAppearanceListItem" />
+
+                <TextView
+                    android:id="@+id/price_range"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="$$$"
+                    android:gravity="right"
+                    android:layout_weight="1"
+                    android:textAppearance="?attr/textAppearanceListItem" />
+
+            </LinearLayout>
+            <RatingBar
+                android:id="@+id/rating"
+                android:isIndicator="true"
+                android:layout_marginLeft="10dp"
+                android:numStars="5"
+                android:stepSize="0.1"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp" />
+
+            <LinearLayout
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="8dp"
+                android:layout_marginLeft="8dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="8dp"
+                android:layout_marginRight="8dp"
+                android:layout_marginBottom="8dp">
 
                 <TextView
                     android:id="@+id/textViewVersion"
-                    android:layout_width="wrap_content"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="10dp"
+                    android:text="CoffeShop Name"
+                    android:gravity="left"
+                    android:layout_weight="1"
+                    android:textAppearance="?attr/textAppearanceListItem" />
 
-                    android:text="Android Version"
-                    android:textAppearance="?android:attr/textAppearanceMedium"/>
+                <TextView
+                    android:id="@+id/shopDist"
+                    android:layout_width="50dp"
+                    android:layout_height="wrap_content"
+                    android:text="2.5km"
+                    android:gravity="right"
+                    android:textSize="14dp"
+                    android:textColor="@color/colorAccent"
+                    android:textAppearance="?attr/textAppearanceListItem" />
 
             </LinearLayout>
 
+
+
+
         </LinearLayout>
 
-    </androidx.cardview.widget.CardView>
+    </LinearLayout>
 
-</LinearLayout>
+
+
+
+</androidx.cardview.widget.CardView>
