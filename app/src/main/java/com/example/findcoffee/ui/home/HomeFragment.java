@@ -1,7 +1,9 @@
 package com.example.findcoffee.ui.home;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
@@ -14,15 +16,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
+import com.example.findcoffee.MainActivity;
 import com.example.findcoffee.R;
 import com.example.findcoffee.ui.explore.ExploreFragment;
 import com.example.findcoffee.zomatoApiGetter;
@@ -46,21 +52,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import pub.devrel.easypermissions.AfterPermissionGranted;
+import pub.devrel.easypermissions.EasyPermissions;
+
 import static android.view.View.GONE;
 import static android.view.View.VISIBLE;
 
 public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
-//    private HomeViewModel homeViewModel;
+    //    private HomeViewModel homeViewModel;
     private static RecyclerView recyclerView;
     private static ArrayList<HomeViewModel> data;
     static ProgressBar bar;
-//    private int area = 1;
+    //    private int area = 1;
     public RequestQueue queue;
 
     public static double currentLong;
 
-    public static  double currentLat;
+    public static double currentLat;
 
     int radius = 1000;
 
@@ -69,6 +78,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     ArrayList<LatLng> cafeCoordinates = new ArrayList<>();
 
     GoogleMap mGoogleMap;
+
     static SupportMapFragment mapFrag;
     LocationRequest mLocationRequest;
     Location mLastLocation;
@@ -76,7 +86,7 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
     FusedLocationProviderClient mFusedLocationClient;
     Geocoder coder;
 
-
+    boolean locationCheck = false;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -102,32 +112,26 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         map.put("sort=", "real_distance");
         //location added below
 
-
         coder = new Geocoder(root.getContext());
-
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(root.getContext());
-
         mapFrag = (SupportMapFragment) getChildFragmentManager().findFragmentById(R.id.map);
         assert mapFrag != null;
         mapFrag.getMapAsync(this);
-
 
         bar = root.findViewById(R.id.progressBar);
         bar.setVisibility(VISIBLE);
         mapFrag.getView().setVisibility(GONE);
         recyclerView.setVisibility(GONE);
 
-
-
         new android.os.Handler().postDelayed(
                 new Runnable() {
                     public void run() {
 
-                        if(currentLong == 0.0 && currentLat == 0.0){
+                        if (currentLong == 0.0 && currentLat == 0.0) {
                             new android.os.Handler().postDelayed(this, 300);
-                        }else{
-                            map.put("lon=", currentLong+"&lat="+currentLat);
-                            zomato.search(map, queue,100);
+                        } else {
+                            map.put("lon=", currentLong + "&lat=" + currentLat);
+                            zomato.search(map, queue, 100);
                         }
 
                     }
@@ -137,19 +141,40 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
         return root;
     }
 
+
     @SuppressLint("MissingPermission")
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mGoogleMap = googleMap;
+        if (checkPermissions()) {
+            locationCheck = true;
+            GoogleMapWorking();
+        } else {
+            requestPermissions(new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 44);
+        }
 
+
+    }
+
+    private void GoogleMapWorking() {
         mLocationRequest = new LocationRequest();
         mLocationRequest.setInterval(120000); // two minute interval
         mLocationRequest.setFastestInterval(120000);
         mLocationRequest.setPriority(LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY);
 
+        if (ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+            // TODO: Consider calling
+            //    ActivityCompat#requestPermissions
+            // here to request the missing permissions, and then overriding
+            //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
+            //                                          int[] grantResults)
+            // to handle the case where the user grants the permission. See the documentation
+            // for ActivityCompat#requestPermissions for more details.
+            return;
+        }
         mFusedLocationClient.requestLocationUpdates(mLocationRequest, mLocationCallback, Looper.myLooper());
-        mGoogleMap.setMyLocationEnabled(true);
 
+        mGoogleMap.setMyLocationEnabled(true);
         mGoogleMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
             @Override
             public boolean onMarkerClick(Marker marker) {
@@ -161,10 +186,31 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 return true;
             }
         });
-
-//        mGoogleMap.moveCamera(CameraUpdateFactory.newLatLng(cafeCoordinates.get(0)));
-//        mGoogleMap.animateCamera(CameraUpdateFactory.zoomTo(12));
     }
+
+
+    private boolean checkPermissions()
+    {
+        return ActivityCompat
+                .checkSelfPermission(getActivity(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED
+                && ActivityCompat
+                .checkSelfPermission(getActivity(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    @Override
+    public void
+    onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults)
+    {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 44) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                locationCheck = true;
+                GoogleMapWorking();
+            }
+        }
+    }
+
+
 
     @Override
     public void onPause() {
