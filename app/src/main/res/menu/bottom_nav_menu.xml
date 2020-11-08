@@ -18,9 +18,9 @@
 
 
     <item
-        android:id="@+id/navigation_arView"
+        android:id="@+id/navigation_gameView"
         android:icon="@drawable/ic_camera_ar"
-        android:title="@string/title_arView"
+        android:title="@string/title_gameView"
         />
 
 </menu>
