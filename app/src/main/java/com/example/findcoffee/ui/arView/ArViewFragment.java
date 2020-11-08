@@ -23,16 +23,9 @@ public class ArViewFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         arViewViewModel =
                 ViewModelProviders.of(this).get(ArViewViewModel.class);
+
         View root = inflater.inflate(R.layout.fragment_ar_view, container, false);
-        final TextView textView = root.findViewById(R.id.text_arView);
-        arViewViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-            @Override
-            public void onChanged(@Nullable String s) {
-                Log.d("The string here is",s);
-                textView.setText(s);
-            }
-        });
+
         return root;
     }
-
 }

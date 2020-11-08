@@ -36,12 +36,19 @@
                 android:layout_height="wrap_content"
                 app:cardCornerRadius="10dp"
                 tools:ignore="MissingConstraints">
+
                 <LinearLayout
 
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="#56D8D8D8"
                     android:orientation="vertical">
+
+                    <Button
+                        android:id="@+id/button_AR"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Start AR" />
 
                     <RelativeLayout
                         android:layout_marginTop="15dp"
@@ -269,6 +276,7 @@
 <!--                        android:layout_height="match_parent"/>-->
                 </LinearLayout>
             </androidx.cardview.widget.CardView>
+
         </LinearLayout>
     </ScrollView>
 

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -11,6 +12,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
+import com.example.findcoffee.ui.arView.ARActivity;
+import com.example.findcoffee.ui.arView.AROverlayView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapFragment;
@@ -42,13 +45,13 @@ public class ShopView extends AppCompatActivity implements OnMapReadyCallback {
         Intent intent = getIntent();
         shopName = intent.getStringExtra("shopName");
 //        String shopThumb = intent.getStringExtra("shopThumb");
-        String shopAddress = intent.getStringExtra("shopAddress");
+        final String shopAddress = intent.getStringExtra("shopAddress");
 
         String shopFeatured_image = intent.getStringExtra("shopFeatured_image");
 
 
-        String shopAddressLon = intent.getStringExtra("shopAddressLon");
-        String shopAddressLat = intent.getStringExtra("shopAddressLat");
+        final String shopAddressLon = intent.getStringExtra("shopAddressLon");
+        final String shopAddressLat = intent.getStringExtra("shopAddressLat");
 
 
         String shopshopUser_rating = intent.getStringExtra("shopUser_rating");
@@ -65,6 +68,17 @@ public class ShopView extends AppCompatActivity implements OnMapReadyCallback {
 
         TextView textView_ShopPrice = (TextView) findViewById(R.id.textView_ShopPrice);
 
+        Button button_ar = (Button) findViewById(R.id.button_AR);
+        button_ar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(ShopView.this, ARActivity.class);
+                intent.putExtra("shop_name", shopName);
+                intent.putExtra("shop_lon", shopAddressLon);
+                intent.putExtra("shop_lat", shopAddressLat);
+                startActivity(intent);
+            }
+        });
 
         RatingBar userRating = (RatingBar) findViewById(R.id.ratingBar);
 
