@@ -49,10 +49,6 @@
             android:label="@string/app_name">
         </activity>
 
-        <activity
-            android:name=".ui.game.GameActivity"
-            android:label="@string/app_name">
-        </activity>
         <activity android:label="ARActivity" android:name=".ui.arView.ARActivity"/>
     </application>
 

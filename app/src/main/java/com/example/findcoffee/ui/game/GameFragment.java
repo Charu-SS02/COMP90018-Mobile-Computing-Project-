@@ -225,8 +225,7 @@ public class GameFragment extends Fragment {
 
         private void update() {
 
-
-            //Did the player get the apple
+//Did the player get the apple
             if(snakeX[0] == appleX && snakeY[0] == appleY){
                 //grow the snake
                 snakeLength++;
@@ -283,18 +282,6 @@ public class GameFragment extends Fragment {
                 score = 0;
                 getSnake();
 
-            }
-            //which frame should be drawn
-            rectToBeDrawn = new Rect((frameNumber * frameWidth) - 1,0,
-                    (frameNumber * frameWidth+frameWidth)-1,frameHeight);
-
-            //now the next frame
-            frameNumber++;
-
-
-            //don't try and draw frames that don't exist
-            if (frameNumber == numFrames){
-                frameNumber = 0;//back to the first frame
             }
         }
 
