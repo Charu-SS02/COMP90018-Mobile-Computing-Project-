@@ -1,8 +1,13 @@
 package com.example.findcoffee.ui.arView;
 
+/**
+ * Created by: Xixiang Wu
+ * Date:       1/11/20.
+ * Email:      xixiangw@student.unimelb.edu.au
+ */
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
@@ -22,8 +27,13 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.findcoffee.R;
+import com.example.findcoffee.model.Shop;
+import com.example.findcoffee.model.ShopMapper;
+
+import org.json.JSONException;
+
+import java.io.IOException;
 
 import static android.hardware.SensorManager.*;
 import static android.view.Surface.*;
@@ -108,10 +118,26 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String shopName = extras.getString("shop_name");
-            String shopLon  = extras.getString("shop_lon");
-            String shopLat  = extras.getString("shop_lat");
-            arOverlayView.addShopData(shopName, Double.valueOf(shopLat), Double.valueOf(shopLon), 0.0f);
+            final Shop shop = ShopMapper.getInstance().retrieveByName(extras.getString("shop_name"));
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        /* Ask to load the history from database, if applicable */
+                        shop.loadSeatsNum();
+                    } catch (JSONException | IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
+            arOverlayView.addShopData(
+                    shop.getShopName(),
+                    shop.getShopAddressLat(),
+                    shop.getShopAddressLon(),
+                    shop.getShopAddressAlt()
+            );
         }
 
         cameraContainerLayout.addView(arOverlayView);

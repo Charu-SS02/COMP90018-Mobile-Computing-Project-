@@ -1,10 +1,12 @@
 package com.example.findcoffee.ui.arView.model;
 
-import android.location.Location;
-
 /**
- * Created by ntdat on 1/16/17.
+ * Created by: Xixiang Wu
+ * Date:       1/11/20.
+ * Email:      xixiangw@student.unimelb.edu.au
  */
+
+import android.location.Location;
 
 public class ARPoint {
     Location location;
