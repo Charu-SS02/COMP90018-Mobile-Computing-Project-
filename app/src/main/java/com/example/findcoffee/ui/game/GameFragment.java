@@ -12,6 +12,7 @@ import android.graphics.Point;
 import android.graphics.Rect;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Display;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
@@ -75,6 +76,7 @@ public class GameFragment extends Fragment {
         snakeAnimView = new SnakeAnimView(root.getContext());
 
         i = new Intent(this.getContext(), GameActivity.class);
+        startActivity(i);
 
         return root;
     }
@@ -92,8 +94,6 @@ public class GameFragment extends Fragment {
             paint = new Paint();
             frameHeight= headAnimBitmap.getHeight();
             frameWidth = headAnimBitmap.getWidth();
-
-
         }
 
         @Override
@@ -120,11 +120,12 @@ public class GameFragment extends Fragment {
 
                 }
             }
+
             lastFrameTime = System.currentTimeMillis();
         }
 
         private void Draw() {
-
+//            Log.d("Game","Game"+ourHolder.getSurface().isValid());
             if (ourHolder.getSurface().isValid()){
                 canvas = ourHolder.lockCanvas();
                 canvas.drawColor(Color.BLACK);//background color

@@ -74,11 +74,12 @@ public class GameActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        Log.d("Game","Game");
         loadSound();
         configureDisplay();
         snakeView = new SnakeView(this);
         setContentView(snakeView);
+
 
     }
 
@@ -127,6 +128,7 @@ public class GameActivity extends Activity {
 
         @Override
         public void run() {
+
             while (playingSnake) {
                 updateGame();
                 drawGame();
@@ -200,7 +202,6 @@ public class GameActivity extends Activity {
         }
 
         public void drawGame() {
-
             if (ourHolder.getSurface().isValid()) {
                 canvas = ourHolder.lockCanvas();
                 //Paint paint = new Paint();
