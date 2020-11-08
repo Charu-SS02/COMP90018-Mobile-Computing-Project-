@@ -96,6 +96,8 @@ public class GameFragment extends Fragment {
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_game, container, false);
 
+        showAlertDialog();
+
         //find out the width and height of the screen
 //        Display display = ((Activity) Objects.requireNonNull(getContext())).getWindowManager().getDefaultDisplay();
 //        Point size = new Point();
@@ -115,6 +117,12 @@ public class GameFragment extends Fragment {
 //        startActivity(i);
 
         return snakeAnimView;
+    }
+
+    private void showAlertDialog() {
+        FragmentManager fm = getChildFragmentManager();
+        GameDialogFragment alertDialog = GameDialogFragment.newInstance("Welcome to the SNAKE game");
+        alertDialog.show(fm, "fragment_alert");
     }
 
     class SnakeAnimView extends SurfaceView implements Runnable
