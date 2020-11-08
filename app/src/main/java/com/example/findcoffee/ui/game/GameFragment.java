@@ -241,7 +241,7 @@ public class GameFragment extends Fragment {
                 getApple();
                 //add to the score
                 score = score + snakeLength;
-                soundPool.play(sample1, 1, 1, 0, 0, 1);
+//                soundPool.play(sample1, 1, 1, 0, 0, 1);
             }
 
             //move the body - starting at the back
@@ -286,7 +286,7 @@ public class GameFragment extends Fragment {
 
             if(dead){
                 //start again
-                soundPool.play(sample4, 1, 1, 0, 0, 1);
+//                soundPool.play(sample4, 1, 1, 0, 0, 1);
                 score = 0;
                 getSnake();
 
@@ -308,12 +308,6 @@ public class GameFragment extends Fragment {
             ourThread = new Thread(this);
             ourThread.start();
         }
-
-
-        //snakeView class and onTouchEvent method
-        //which simply starts the game when the screen
-        //is touched anywhere,we enter the following code
-
 
         @Override
         public boolean onTouchEvent(MotionEvent motionEvent) {
