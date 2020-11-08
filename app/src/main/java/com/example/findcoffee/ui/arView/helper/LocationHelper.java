@@ -1,11 +1,26 @@
 package com.example.findcoffee.ui.arView.helper;
 
+/**
+ * Created by: Xixiang Wu
+ * Date:       1/11/20.
+ * Email:      xixiangw@student.unimelb.edu.au
+ */
+
 import android.location.Location;
 
 public class LocationHelper {
+
+    /**
+    * Location Helper is a class that is used to transfer the GPS coordinate data into the AR math
+    *  format. Without the help from the 3D engine like Unity or the Library like Google ARCore,
+    *  all of the longitude and latitude needs to be transferred into screen space for display.
+    * */
+
     private final static double WGS84_A = 6378137.0;                  // WGS 84 semi-major axis constant in meters
     private final static double WGS84_E2 = 0.00669437999014;          // square of WGS 84 eccentricity
 
+
+    /* World Geodetic System to Earth-Centred, Earth-Fixed coordinates*/
     public static float[] WSG84toECEF(Location location) {
         double radLat = Math.toRadians(location.getLatitude());
         double radLon = Math.toRadians(location.getLongitude());
@@ -24,6 +39,8 @@ public class LocationHelper {
         return new float[] {x , y, z};
     }
 
+
+    /* Earth-Centered, Earth-Fixed coordinates to East North up coordinates system */
     public static float[] ECEFtoENU(Location currentLocation, float[] ecefCurrentLocation, float[] ecefPOI) {
         double radLat = Math.toRadians(currentLocation.getLatitude());
         double radLon = Math.toRadians(currentLocation.getLongitude());

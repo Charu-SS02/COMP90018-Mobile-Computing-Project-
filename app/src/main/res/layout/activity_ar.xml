@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_ar"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -8,10 +9,21 @@
         android:id="@+id/camera_container_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
+
         <SurfaceView
             android:id="@+id/surface_view"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <TextView
+            android:id="@+id/tv_current_location"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginBottom="50dp"
+            android:alpha="0.1"
+            android:text="GPS is loading..."
+            android:textColor="@android:color/white" />
     </FrameLayout>
 
 
@@ -20,16 +32,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="20dp"
-        android:textColor="@android:color/white"
-        android:text="GPS is loading..."/>
-
-    <TextView
-        android:id="@+id/tv_current_location"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginLeft="20dp"
-        android:textColor="@android:color/white"
-        android:text="GPS is loading..."/>
+        android:alpha="0.1"
+        android:text="GPS is loading..."
+        android:textColor="@android:color/white" />
 
 </FrameLayout>

@@ -14,6 +14,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.example.findcoffee.model.Shop;
 import com.example.findcoffee.ui.explore.ExploreFragment;
 import com.example.findcoffee.ui.home.CoffeeShopAdapter;
 import com.example.findcoffee.ui.home.HomeFragment;
@@ -121,6 +122,9 @@ public class zomatoApiGetter extends FragmentActivity {
                                 while(i < getCafeList.length() && shopCount < maxEntries)
                                 {
                                     coffeeShop = getCafeList.getJSONObject(i);
+
+                                    Shop shop = new Shop(coffeeShop);
+
                                     JSONObject coffeeShopDetails = coffeeShop.getJSONObject("restaurant");
                                     String name = coffeeShopDetails.getString("name");
                                     String getThumb = coffeeShopDetails.getString("thumb");

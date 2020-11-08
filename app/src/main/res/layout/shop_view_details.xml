@@ -197,10 +197,12 @@
 
                                 <TextView
                                     android:id="@+id/textView_ShopMenu"
+                                    android:autoLink="web"
                                     android:layout_width="260dp"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="sans-serif-thin"
                                     android:text="URL"
+                                    android:maxLines="1"
                                     android:textSize="20sp"
                                     android:paddingLeft="20dp"
                                     android:layout_column="1"/>
@@ -245,11 +247,13 @@
 
                                 <TextView
                                     android:id="@+id/textView_Event"
+                                    android:autoLink="web"
                                     android:layout_width="260dp"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="sans-serif-thin"
                                     android:text="URL"
                                     android:textSize="20sp"
+                                    android:maxLines="1"
                                     android:paddingLeft="20dp"
                                     android:layout_column="1"/>
                             </TableRow>
@@ -269,6 +273,7 @@
 
                                 <TextView
                                     android:id="@+id/textView_Store"
+                                    android:autoLink="web"
                                     android:layout_width="260dp"
                                     android:layout_height="wrap_content"
                                     android:fontFamily="sans-serif-thin"
@@ -276,6 +281,7 @@
                                     android:textSize="20sp"
                                     android:paddingLeft="20dp"
                                     android:layout_weight="2"
+                                    android:maxLines="1"
                                     android:layout_column="1"/>
                             </TableRow>
                         </TableLayout>
