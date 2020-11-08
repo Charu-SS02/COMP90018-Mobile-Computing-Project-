@@ -23,6 +23,7 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.squareup.picasso.Picasso;
 
 public class ShopView extends AppCompatActivity implements OnMapReadyCallback {
@@ -68,7 +69,8 @@ public class ShopView extends AppCompatActivity implements OnMapReadyCallback {
 
         TextView textView_ShopPrice = (TextView) findViewById(R.id.textView_ShopPrice);
 
-        Button button_ar = (Button) findViewById(R.id.button_AR);
+        FloatingActionButton button_ar = (FloatingActionButton) findViewById(R.id.button_AR);
+//        Button button_ar = (Button) findViewById(R.id.button_AR);
         button_ar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

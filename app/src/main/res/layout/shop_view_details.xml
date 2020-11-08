@@ -16,6 +16,20 @@
         tools:srcCompat="@tools:sample/avatars"
         android:scaleType="fitXY"/>
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/button_AR"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="50dp"
+        android:layout_marginRight="50dp"
+        android:layout_marginBottom="20dp"
+        android:layout_weight="1"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:srcCompat="@drawable/ic_camera_ar"
+        tools:ignore="MissingConstraints,VectorDrawableCompat" />
+
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
@@ -43,12 +57,6 @@
                     android:layout_height="wrap_content"
                     android:background="#56D8D8D8"
                     android:orientation="vertical">
-
-                    <Button
-                        android:id="@+id/button_AR"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:text="Start AR" />
 
                     <RelativeLayout
                         android:layout_marginTop="15dp"
@@ -132,6 +140,8 @@
                                 android:layout_height="210dp"
                                 tools:layout_editor_absoluteX="0dp"
                                 tools:layout_editor_absoluteY="-144dp" />
+
+
                         </LinearLayout>
                     </androidx.cardview.widget.CardView>
                     <androidx.cardview.widget.CardView
