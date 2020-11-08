@@ -15,9 +15,9 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Display;
-import android.view.GestureDetector;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
@@ -49,7 +49,6 @@ public class GameFragment extends Fragment{
     //the portion of the bitmap to be drawn in the current frame
     Rect rectToBeDrawn;
 
-    GestureDetector gestureDetector;
     //The dimensions of  a single frame
     int frameHeight = 64;
     int frameWidth = 64;
@@ -102,7 +101,6 @@ public class GameFragment extends Fragment{
         View root = inflater.inflate(R.layout.fragment_game, container, false);
 
         showAlertDialog();
-
 
 
         configureDisplay();
@@ -413,6 +411,7 @@ public class GameFragment extends Fragment{
 
         public SnakeGame(Context context) {
             super(context);
+            new OnSwipeTouchListener(context, this);
             ourHolder = getHolder();
             paint = new Paint();
 
@@ -430,6 +429,7 @@ public class GameFragment extends Fragment{
 
         @Override
         public void run() {
+
             while (playingSnake){
                 update();
                 Draw();
@@ -612,6 +612,55 @@ public class GameFragment extends Fragment{
         }
         public int getDirection() {
             return direction;
+        }
+
+        @Override
+        public boolean onTouchEvent(MotionEvent motionEvent) {
+
+            switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
+                case MotionEvent.ACTION_UP:
+                    if (motionEvent.getX() >= screenWidth / 2) {
+                        //turn right
+                        direction ++;
+                        if(direction == 4) {//no such direction
+                            //loop back to 0(up)
+                            direction = 0;
+                        }
+                    } else {
+                        //turn left
+                        direction--;
+                        if(direction == -1) {//no such direction
+                            //loop back to 0(up)
+                            direction = 3;
+                        }
+                    }
+            }
+            return true;
+        }
+
+
+        public void goRight() {
+            if(direction != 3){
+                direction = 1;
+            }
+        }
+
+        public void goLeft(){
+            if(direction != 1){
+                direction = 3;
+            }
+        }
+
+        public void goUp(){
+            if(direction != 0){
+                direction = 2;
+            }
+        }
+
+        public void goDown(){
+            if(direction != 2){
+                direction = 0;
+            }
         }
     }
 

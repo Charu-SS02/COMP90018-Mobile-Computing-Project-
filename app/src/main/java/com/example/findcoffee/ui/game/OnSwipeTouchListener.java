@@ -7,7 +7,9 @@ import android.view.View;
 
 public class OnSwipeTouchListener implements View.OnTouchListener {
     private GestureDetector gestureDetector;
-    public OnSwipeTouchListener(Context c) {
+    private GameFragment.SnakeGame snakeGame;
+    public OnSwipeTouchListener(Context c, GameFragment.SnakeGame snake) {
+        this.snakeGame = snake;
         gestureDetector = new GestureDetector(c, new GestureListener());
     }
     public boolean onTouch(final View view, final MotionEvent motionEvent) {
@@ -24,6 +26,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
             boolean result = false;
+            int out = -1;
             try {
                 float diffY = e2.getY() - e1.getY();
                 float diffX = e2.getX() - e1.getX();
@@ -44,6 +47,7 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
                         }
                     }
                 }
+                result = true;
             } catch (Exception exception) {
                 exception.printStackTrace();
             }
@@ -51,11 +55,15 @@ public class OnSwipeTouchListener implements View.OnTouchListener {
         }
     }
     public void onSwipeRight() {
+        snakeGame.goRight();
     }
     public void onSwipeLeft() {
+        snakeGame.goLeft();
     }
     public void onSwipeUp() {
+        snakeGame.goUp();
     }
     public void onSwipeDown() {
+        snakeGame.goDown();
     }
 }
