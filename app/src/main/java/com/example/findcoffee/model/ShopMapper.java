@@ -1,7 +1,12 @@
 package com.example.findcoffee.model;
 
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
+
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Created by: Xixiang Wu
@@ -34,6 +39,7 @@ public class ShopMapper {
             shopList.add(shop);
     }
 
+
     /* Retrieve Shop by ID */
     public Shop retrieveById(String uuid) {
         for (Shop shop: shopList) {
@@ -43,6 +49,7 @@ public class ShopMapper {
         return null;
     }
 
+
     /* Retrieve Shop by Name */
     public Shop retrieveByName(String shopName) {
         for (Shop shop: shopList) {
@@ -51,4 +58,15 @@ public class ShopMapper {
         }
         return null;
     }
+
+
+    /* Retrieve Shop randomly */
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    public Shop retrieveRandomly() {
+        int min = 0;
+        int max = shopList.size();
+        int index = ThreadLocalRandom.current().nextInt(min, max + 1);
+        return shopList.get(index);
+    }
+
 }

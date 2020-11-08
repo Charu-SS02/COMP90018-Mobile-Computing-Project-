@@ -24,6 +24,13 @@
             android:alpha="0.1"
             android:text="GPS is loading..."
             android:textColor="@android:color/white" />
+
+        <Button
+            android:id="@+id/random_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:text="Random Coffee shop in 500 meters" />
     </FrameLayout>
 
 

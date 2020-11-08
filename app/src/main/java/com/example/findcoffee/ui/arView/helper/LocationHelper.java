@@ -16,8 +16,8 @@ public class LocationHelper {
     *  all of the longitude and latitude needs to be transferred into screen space for display.
     * */
 
-    private final static double WGS84_A = 6378137.0;                  // WGS 84 semi-major axis constant in meters
-    private final static double WGS84_E2 = 0.00669437999014;          // square of WGS 84 eccentricity
+    private final static double WGS84_A = 6378137.0;        // WGS 84 semi-major axis constant meters
+    private final static double WGS84_E2 = 0.00669437999014;// square of WGS 84 eccentricity
 
 
     /* World Geodetic System to Earth-Centred, Earth-Fixed coordinates*/
@@ -62,4 +62,30 @@ public class LocationHelper {
 
         return new float[] {east , north, up, 1};
     }
+
+    public static double GeoDistanceCalculation(Location location, Location location2) {
+        double lat1 = location.getLatitude();
+        double lat2 = location2.getLatitude();
+        double el1  = location.getAltitude();
+        double el2  = location2.getAltitude();
+        double lon1 = location.getLongitude();
+        double lon2 = location2.getLongitude();
+
+        final int R = 6371; // Radius of the earth
+
+        double latDistance = Math.toRadians(lat2 - lat1);
+        double lonDistance = Math.toRadians(lon2 - lon1);
+        double a = Math.sin(latDistance / 2) * Math.sin(latDistance / 2)
+                + Math.cos(Math.toRadians(lat1)) * Math.cos(Math.toRadians(lat2))
+                * Math.sin(lonDistance / 2) * Math.sin(lonDistance / 2);
+        double c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+        double distance = R * c * 1000; // convert to meters
+
+        double height = el1 - el2;
+
+        distance = Math.pow(distance, 2) + Math.pow(height, 2);
+
+        return Math.sqrt(distance);
+    }
+
 }

@@ -24,8 +24,12 @@ import java.util.List;
 @SuppressWarnings("deprecation")
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public class ARCamera extends ViewGroup implements SurfaceHolder.Callback {
-    private final String TAG = "ARCamera";
 
+    /**
+     * This is the AR Camera view. Convert the camera into a screen space.
+     * */
+
+    private final String TAG = "ARCamera";
     SurfaceView surfaceView;
     SurfaceHolder surfaceHolder;
     Camera.Size previewSize;
@@ -43,7 +47,6 @@ public class ARCamera extends ViewGroup implements SurfaceHolder.Callback {
 
     public ARCamera(Context context, SurfaceView surfaceView) {
         super(context);
-
         this.surfaceView = surfaceView;
         this.activity = (Activity) context;
         surfaceHolder = this.surfaceView.getHolder();
