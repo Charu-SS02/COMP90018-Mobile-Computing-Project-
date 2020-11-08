@@ -81,7 +81,7 @@ public class GameActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("Game","Game");
+
         loadSound();
         configureDisplay();
         snakeView = new SnakeView(this);
@@ -115,7 +115,8 @@ public class GameActivity extends AppCompatActivity {
         public void getSnake(){
             snakeLength = 3;
             //start snake head in the middle of screen
-            snakeX[0] = numBlocksWide/2;
+            snakeX[0] =
+                    numBlocksWide/2;
             snakeY[0] = numBlocksHigh /2;
 
             //Then the body
@@ -212,7 +213,7 @@ public class GameActivity extends AppCompatActivity {
             if (ourHolder.getSurface().isValid()) {
                 canvas = ourHolder.lockCanvas();
                 //Paint paint = new Paint();
-                canvas.drawColor(Color.BLACK);//the background
+                canvas.drawColor(Color.WHITE);//the background
                 paint.setColor(Color.argb(255, 255, 255, 255));
                 paint.setTextSize(topGap/2);
                 canvas.drawText("Score:" + score + "  Hi:" + hi, 10, topGap-6, paint);
