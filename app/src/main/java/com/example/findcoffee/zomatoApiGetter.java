@@ -190,6 +190,7 @@ public class zomatoApiGetter extends FragmentActivity {
 
                                 }
                             }catch(JSONException e){
+                                System.out.println("zomatoAPIError");
                                 e.printStackTrace();
                             }
 
