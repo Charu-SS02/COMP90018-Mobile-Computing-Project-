@@ -73,8 +73,6 @@ The AR feature of FindCoffee didn’t use a library, which is quite surprising. 
 
 How did we achieve the function? Without the help from the AR library like Google ARCore Library or Mapbox, we did two things to achieve the similar function with minimum error. Firstly, we retrieve the geo location from the phone's GPS sensor, afterwards, we use an algorithm to convert from World Geodetic System (longitude and latitude) to Earth-Centred, Earth-Fixed coordinates, then again from ECEF to East North up coordinates system which is what we called "screen space". After finding the anchor point (by using similar conversion as phone's coordinate) of the shop in the screen space, we use the gyroscope sensor to measure the movement of the camera and change the direction by adding the delta of gyroscope movement in x,y,z direction. That’s how we achieve the AR function.  
 
-###### Known issues: the error is huge in 0-50 meter ranges.
-
 #### Game page
 Last but not the least, the game page of the app. This page gives the user an option to pass his time while he travels to the coffee shop in a tram or simply waits while his coffee is being prepared. It presents the user with the retro game of snakes which is loved and played by all age groups alike. The game serves the purpose of keeping the user occupied and is a nice distraction.
 
