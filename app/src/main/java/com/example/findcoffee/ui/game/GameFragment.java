@@ -127,7 +127,7 @@ public class GameFragment extends Fragment{
         //scale the bitmaps to match the block size
         headContentBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.head), quadSize, quadSize, false);
         bodyContentBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.body), quadSize, quadSize, false);
-        tailContentBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.body), quadSize, quadSize, false);
+
         foodContentBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.coffee_cup_logo), quadSize, quadSize, false);
 
     }
@@ -187,11 +187,9 @@ public class GameFragment extends Fragment{
                 //Draw the snake
                 canvas.drawBitmap(headContentBitmap, snakeWidth[0]*quadSize, (snakeHeight[0]*quadSize)+margin, paint);
                 //Draw the body
-                for(int i = 1; i < getLength-1;i++){
+                for(int i = 1; i < getLength;i++){
                     canvas.drawBitmap(bodyContentBitmap, snakeWidth[i]*quadSize, (snakeHeight[i]*quadSize)+margin, paint);
                 }
-                //draw the tail
-                canvas.drawBitmap(tailContentBitmap, snakeWidth[getLength-1]*quadSize, (snakeHeight[getLength-1]*quadSize)+margin, paint);
 
                 //draw the food
                 canvas.drawBitmap(foodContentBitmap, foodX*quadSize, (foodY*quadSize)+margin, paint);
