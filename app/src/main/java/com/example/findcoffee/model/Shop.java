@@ -79,12 +79,12 @@ public class Shop {
     }
 
 
-    /* History of coffee shop from https://data.melbourne.vic.gov.au/resource/xt2y-tnn9.json */
+    /* Seat number of coffee shop from https://data.melbourne.vic.gov.au/resource/xt2y-tnn9.json */
     public void loadSeatsNum() throws IOException, JSONException {
 
         if (!dbLoaded) { // to check if the data is already loaded
 
-            final String databaseUrl = "https://data.melbourne.vic.gov.au/resource/xt2y-tnn9.json?trading_name="+shopName;
+            final String databaseUrl = "https://data.melbourne.vic.gov.au/resource/xt2y-tnn9.json?trading_name=" + shopName;
             JSONArray jsonArray = ApiFactory.readJsonArrayFromUrl(databaseUrl);
             System.out.println("debug: " + jsonArray);
 
