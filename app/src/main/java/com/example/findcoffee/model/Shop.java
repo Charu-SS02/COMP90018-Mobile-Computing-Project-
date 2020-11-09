@@ -21,7 +21,7 @@ public class Shop {
     final private String SEATS_INDOOR_STR  = "Seats - Indoor";
     final private String END_YEAR = "2019";
 
-    /** Shop class, include all the data that can be retrieved from ZomatoAPI */
+    /* Shop class, include all the data that can be retrieved from ZomatoAPI */
     private String shopName;
     private String shopThumb;
     private String shopAddress;
