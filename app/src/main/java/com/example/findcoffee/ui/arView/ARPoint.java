@@ -1,4 +1,4 @@
-package com.example.findcoffee.ui.arView.model;
+package com.example.findcoffee.ui.arView;
 
 /**
  * Created by: Xixiang Wu

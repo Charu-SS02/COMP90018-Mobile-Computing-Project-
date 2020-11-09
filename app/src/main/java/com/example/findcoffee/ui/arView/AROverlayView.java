@@ -28,10 +28,12 @@ import com.example.findcoffee.R;
 import com.example.findcoffee.model.Shop;
 import com.example.findcoffee.model.ShopMapper;
 import com.example.findcoffee.model.User;
-import com.example.findcoffee.ui.arView.helper.LocationHelper;
-import com.example.findcoffee.ui.arView.model.ARPoint;
 
 public class AROverlayView extends View {
+
+    /**
+     *  AROverlayView is a class that used for rendering the black bubble indicator.
+     * */
 
     Context context;
     private float[] rotatedProjectionMatrix = new float[16];
@@ -39,9 +41,9 @@ public class AROverlayView extends View {
     private List<ARPoint> arPoints = new ArrayList<ARPoint>();
 
 
+    /* Init */
     public AROverlayView(Context context) {
         super(context);
-
         this.context = context;
     }
 
@@ -82,12 +84,16 @@ public class AROverlayView extends View {
         }
 
         final int radius = 30;
+
+
+        /* Paint */
         Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
         paint.setStyle(Paint.Style.FILL);
         paint.setColor(Color.WHITE);
-        paint.setTypeface(Typeface.create(Typeface.DEFAULT, Typeface.NORMAL));
+        paint.setTypeface(Typeface.create(Typeface.SANS_SERIF, Typeface.NORMAL));
         paint.setTextSize(60);
 
+        /* iterate through the ar points */
         for (int i = 0; i < arPoints.size(); i ++) {
             float[] currentLocationInECEF = LocationHelper.WSG84toECEF(currentLocation);
             float[] pointInECEF = LocationHelper.WSG84toECEF(arPoints.get(i).getLocation());
@@ -96,13 +102,12 @@ public class AROverlayView extends View {
             float[] cameraCoordinateVector = new float[4];
             Matrix.multiplyMV(cameraCoordinateVector, 0, rotatedProjectionMatrix, 0, pointInENU, 0);
 
-
-            // Retrieve the shop
+            // Retrieve the shop from mapper
             Shop shop = ShopMapper.getInstance().retrieveByName(arPoints.get(i).getName());
 
-            // cameraCoordinateVector[2] is z, that always less than 0 to display on right position
-            // if z > 0, the point will display on the opposite
             if (cameraCoordinateVector[2] < 0) {
+
+
                 float x  = (0.5f + cameraCoordinateVector[0]/cameraCoordinateVector[3]) * canvas.getWidth();
                 float y = (0.5f - cameraCoordinateVector[1]/cameraCoordinateVector[3]) * canvas.getHeight();
 
