@@ -19,7 +19,7 @@
 
     <item
         android:id="@+id/navigation_gameView"
-        android:icon="@drawable/ic_camera_ar"
+        android:icon="@drawable/ic_game"
         android:title="@string/title_gameView"
         />
 

@@ -58,6 +58,7 @@ public class GameFragment extends Fragment{
     float x1, x2, y1, y2;
 
     int topGap;
+    int bottomGap;
     int screenWidth;
     int screenHeight;
     int [] snakeX;
@@ -67,7 +68,7 @@ public class GameFragment extends Fragment{
     //stats
     long lastFrameTime;
     int fps;
-    int hi;
+
     int snakeLength;
     int appleX;
     int appleY;
@@ -101,14 +102,9 @@ public class GameFragment extends Fragment{
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_game, container, false);
-
         showAlertDialog();
-
-
         configureDisplay();
         game = new SnakeGame(getActivity());
-
-
         return game;
     }
 
@@ -117,224 +113,6 @@ public class GameFragment extends Fragment{
         GameDialogFragment alertDialog = GameDialogFragment.newInstance("Welcome to the SNAKE game");
         alertDialog.show(fm, "fragment_alert");
     }
-
-
-//    class SnakeAnimView extends SurfaceView implements Runnable
-//    {
-//        Thread ourThread = null;
-//        SurfaceHolder ourHolder;
-//        volatile boolean playingSnake;
-//        Paint paint;
-//
-//        public SnakeAnimView(Context context) {
-//            super(context);
-//            ourHolder = getHolder();
-//            paint = new Paint();
-//
-//            //Even my 9 year old play tester couldn't
-//            //get a snake this long
-//            snakeX = new int[200];
-//            snakeY = new int[200];
-//
-//            //our starting snake
-//            getSnake();
-//            //get an apple to munch
-//            getApple();
-//        }
-//        public void getSnake(){
-//            snakeLength = 3;
-//            //start snake head in the middle of screen
-//            snakeX[0] = numBlocksWide/2;
-//            snakeY[0] = numBlocksHigh /2;
-//
-//            //Then the body
-//            snakeX[1] = snakeX[0]-1;
-//            snakeY[1] = snakeY[0];
-//
-//            //And the tail
-//            snakeX[1] = snakeX[1]-1;
-//            snakeY[1] = snakeY[0];
-//        }
-//
-//        public void getApple(){
-//            Random random = new Random();
-//            appleX = random.nextInt(numBlocksWide-1)+1;
-//            appleY = random.nextInt(numBlocksHigh-1)+1;
-//        }
-//
-//        @Override
-//        public void run() {
-//            while (playingSnake){
-//                update();
-//                Draw();
-//                controlFPS();
-//            }
-//        }
-//
-//        private void controlFPS() {
-//
-//            long timeThisFrame = (System.currentTimeMillis() - lastFrameTime);
-//            long timeToSleep = 100 - timeThisFrame;
-//            if (timeThisFrame > 0) {
-//                fps = (int) (1000 / timeThisFrame);
-//            }
-//            if (timeToSleep > 0) {
-//
-//                try {
-//                    ourThread.sleep(timeToSleep);
-//                } catch (InterruptedException e) {
-//                    //Print an error message to the console
-//                    Log.e("error", "failed to load sound files");
-//                }
-//
-//            }
-//
-//            lastFrameTime = System.currentTimeMillis();
-//        }
-//
-//        private void Draw() {
-////            Log.d("Game","Game"+ourHolder.getSurface().isValid());
-//            if (ourHolder.getSurface().isValid()) {
-//                canvas = ourHolder.lockCanvas();
-//                //Paint paint = new Paint();
-//                canvas.drawColor(Color.WHITE);//the background
-//                paint.setColor(Color.argb(255, 255, 255, 255));
-//                paint.setTextSize(topGap/2);
-//                canvas.drawText("Score:" + score + "  Hi:" + hi, 10, topGap-6, paint);
-//
-//                //draw a border - 4 lines, top right, bottom , left
-//                paint.setStrokeWidth(3);//4 pixel border
-//                canvas.drawLine(1,topGap,screenWidth-1,topGap,paint);
-//                canvas.drawLine(screenWidth-1,topGap,screenWidth-1,topGap+(numBlocksHigh*blockSize),paint);
-//                canvas.drawLine(screenWidth-1,topGap+(numBlocksHigh*blockSize),1,topGap+(numBlocksHigh*blockSize),paint);
-//                canvas.drawLine(1,topGap, 1,topGap+(numBlocksHigh*blockSize), paint);
-//
-//                //Draw the snake
-//                canvas.drawBitmap(headBitmap, snakeX[0]*blockSize, (snakeY[0]*blockSize)+topGap, paint);
-//                //Draw the body
-//                for(int i = 1; i < snakeLength-1;i++){
-//                    canvas.drawBitmap(bodyBitmap, snakeX[i]*blockSize, (snakeY[i]*blockSize)+topGap, paint);
-//                }
-//                //draw the tail
-//                canvas.drawBitmap(tailBitmap, snakeX[snakeLength-1]*blockSize, (snakeY[snakeLength-1]*blockSize)+topGap, paint);
-//
-//                //draw the apple
-//                canvas.drawBitmap(appleBitmap, appleX*blockSize, (appleY*blockSize)+topGap, paint);
-//
-//                ourHolder.unlockCanvasAndPost(canvas);
-//            }
-//        }
-//
-//        private void update() {
-//
-////Did the player get the apple
-//            if(snakeX[0] == appleX && snakeY[0] == appleY){
-//                //grow the snake
-//                snakeLength++;
-//                //replace the apple
-//                getApple();
-//                //add to the score
-//                score = score + snakeLength;
-////                soundPool.play(sample1, 1, 1, 0, 0, 1);
-//            }
-//
-//            //move the body - starting at the back
-//            for(int i=snakeLength; i >0 ; i--){
-//                snakeX[i] = snakeX[i-1];
-//                snakeY[i] = snakeY[i-1];
-//            }
-//
-//
-//            //Move the head in the appropriate direction
-//            switch (directionOfTravel){
-//                case 0://up
-//                    snakeY[0]  --;
-//                    break;
-//
-//                case 1://right
-//                    snakeX[0] ++;
-//                    break;
-//
-//                case 2://down
-//                    snakeY[0] ++;
-//                    break;
-//
-//                case 3://left
-//                    snakeX[0] --;
-//                    break;
-//            }
-//
-//            //Have we had an accident
-//            boolean dead = false;
-//            //with a wall
-//            if(snakeX[0] == -1)dead=true;
-//            if(snakeX[0] >= numBlocksWide)dead=true;
-//            if(snakeY[0] == -1)dead=true;
-//            if(snakeY[0] == numBlocksHigh)dead=true;
-//            //or eaten ourselves?
-//            for (int i = snakeLength-1; i > 0; i--) {
-//                if ((i > 4) && (snakeX[0] == snakeX[i]) && (snakeY[0] == snakeY[i])) {
-//                    dead = true;
-//                }
-//            }
-//
-//
-//            if(dead){
-//                //start again
-////                soundPool.play(sample4, 1, 1, 0, 0, 1);
-//                score = 0;
-//                getSnake();
-//
-//            }
-//        }
-//
-//
-//        public void pause(){
-//            playingSnake = false;
-//            try {
-//                ourThread.join();
-//            }catch (InterruptedException e){
-//
-//            }
-//        }
-//
-//        public void resume(){
-//            playingSnake = true;
-//            ourThread = new Thread(this);
-//            ourThread.start();
-//        }
-//
-//        @Override
-//        public boolean onTouchEvent(MotionEvent motionEvent) {
-//
-//            switch (motionEvent.getAction() & MotionEvent.ACTION_MASK) {
-//                case MotionEvent.ACTION_UP:
-//                    if (motionEvent.getX() >= screenWidth / 2) {
-//                        //turn right
-//                        directionOfTravel ++;
-//                        if(directionOfTravel == 4) {//no such direction
-//                            //loop back to 0(up)
-//                            directionOfTravel = 0;
-//                        }
-//                    } else {
-//                        //turn left
-//                        directionOfTravel--;
-//                        if(directionOfTravel == -1) {//no such direction
-//                            //loop back to 0(up)
-//                            directionOfTravel = 3;
-//                        }
-//                    }
-//            }
-//            return true;
-//        }
-//
-//
-//
-//
-//
-//    }
-
-
     @Override
     public void onStop() {
         super.onStop();
@@ -379,14 +157,15 @@ public class GameFragment extends Fragment{
         screenWidth = size.x;
         screenHeight = size.y;
         topGap = screenHeight/14;
+        bottomGap = screenHeight/15;
 
         //Determine the size of each block/place on the game board
-        blockSize = screenWidth/40;
+        blockSize = screenWidth/30;
 
         //Determine how many game blocks will fit into the height and width
         //Leave one block for the score at the top
         width = 40;
-        height = ((screenHeight - topGap ))/blockSize;
+        height = (screenHeight)/blockSize;
 
         //Load and scale bitmaps
         headBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.head);
@@ -445,15 +224,16 @@ public class GameFragment extends Fragment{
                 canvas = ourHolder.lockCanvas();
                 //Paint paint = new Paint();
                 canvas.drawColor(Color.WHITE);//the background
-                paint.setColor(Color.argb(255, 255, 255, 255));
+                paint.setColor(Color.BLACK);
                 paint.setTextSize(topGap/2);
-                canvas.drawText("Score:" + score + "  Hi:" + hi, 10, topGap-6, paint);
+                canvas.drawText("Score:" + score, 10, topGap-6, paint);
 
                 //draw a border - 4 lines, top right, bottom , left
+
                 paint.setStrokeWidth(3);//4 pixel border
                 canvas.drawLine(1,topGap,screenWidth-1,topGap,paint);
                 canvas.drawLine(screenWidth-1,topGap,screenWidth-1,topGap+(height*blockSize),paint);
-                canvas.drawLine(screenWidth-1,topGap+(height*blockSize),1,topGap+(height*blockSize),paint);
+                canvas.drawLine(screenWidth-1,(height*blockSize)-bottomGap,1,(height*blockSize)-bottomGap,paint);
                 canvas.drawLine(1,topGap, 1,topGap+(height*blockSize), paint);
 
                 //Draw the snake
@@ -594,9 +374,9 @@ public class GameFragment extends Fragment{
                 }
             }
         }
-        public int getSnakeLength(){
-            return snakeLength;
-        }
+//        public int getSnakeLength(){
+//            return snakeLength;
+//        }
 
         public void snakeGrow(){
             snakeLength += 1;
@@ -609,17 +389,15 @@ public class GameFragment extends Fragment{
             appleY = apple.nextInt(height-1)+1;
         }
 
-        public void setDirection(int dir) {
-            direction = dir;
-        }
-        public int getDirection() {
-            return direction;
-        }
+//        public void setDirection(int dir) {
+//            direction = dir;
+//        }
+//        public int getDirection() {
+//            return direction;
+//        }
 
         @Override
         public boolean onTouchEvent(MotionEvent e) {
-
-
             switch (e.getAction() & MotionEvent.ACTION_MASK) {
                 case MotionEvent.ACTION_DOWN:
                     x1 = e.getX();
