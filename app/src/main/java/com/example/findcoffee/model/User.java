@@ -2,8 +2,6 @@ package com.example.findcoffee.model;
 
 import android.location.Location;
 
-import com.example.findcoffee.ui.arView.helper.LocationHelper;
-
 /**
  * Created by: Xixiang Wu
  * Date:       9/11/20.
