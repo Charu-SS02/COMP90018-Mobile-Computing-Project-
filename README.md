@@ -67,6 +67,8 @@ On scrolling down, other details such as opening and closing hours of the shop, 
 
 The shop details page also includes the most attractive feature of this app which is Augmented Reality or AR. On clicking the blue AR icon, the user is redirected to the AR activity page.
 
+
+
 The AR feature of FindCoffee didn’t use a library, which is quite surprising. When you are browsing the coffee shops from the home page, search page and explore page, a small green AR button is on the bottom-right side of the app. The button will redirect you to the AR view. Now, rotate your camera, try to find the black bubble with the coffee shop name, down below the name, it shows outdoor seats and indoor seats number retrieved from Melbourne government database. Walk towards the black bubble’s direction, you will soon find the coffee shop.
 
 How did we achieve the function? Without the help from the AR library like Google ARCore Library or Mapbox, we did two things to achieve the similar function with minimum error. Firstly, we retrieve the geo location from the phone's GPS sensor, afterwards, we use an algorithm to convert from World Geodetic System (longitude and latitude) to Earth-Centred, Earth-Fixed coordinates, then again from ECEF to East North up coordinates system which is what we called "screen space". After finding the anchor point (by using similar conversion as phone's coordinate) of the shop in the screen space, we use the gyroscope sensor to measure the movement of the camera and change the direction by adding the delta of gyroscope movement in x,y,z direction. That’s how we achieve the AR function.  
