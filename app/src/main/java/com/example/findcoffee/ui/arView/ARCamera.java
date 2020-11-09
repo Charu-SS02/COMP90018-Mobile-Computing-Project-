@@ -1,5 +1,11 @@
 package com.example.findcoffee.ui.arView;
 
+/**
+ * Created by: Xixiang Wu
+ * Date:       1/11/20.
+ * Email:      xixiangw@student.unimelb.edu.au
+ */
+
 import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
@@ -12,18 +18,18 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.view.View;
 import android.view.ViewGroup;
-
 import java.io.IOException;
 import java.util.List;
 
-/**
- * Created by ntdat on 1/13/17.
- */
 @SuppressWarnings("deprecation")
 @TargetApi(Build.VERSION_CODES.KITKAT)
 public class ARCamera extends ViewGroup implements SurfaceHolder.Callback {
-    private final String TAG = "ARCamera";
 
+    /**
+     * This is the AR Camera view. Convert the camera into a screen space.
+     * */
+
+    private final String TAG = "ARCamera";
     SurfaceView surfaceView;
     SurfaceHolder surfaceHolder;
     Camera.Size previewSize;
@@ -41,7 +47,6 @@ public class ARCamera extends ViewGroup implements SurfaceHolder.Callback {
 
     public ARCamera(Context context, SurfaceView surfaceView) {
         super(context);
-
         this.surfaceView = surfaceView;
         this.activity = (Activity) context;
         surfaceHolder = this.surfaceView.getHolder();

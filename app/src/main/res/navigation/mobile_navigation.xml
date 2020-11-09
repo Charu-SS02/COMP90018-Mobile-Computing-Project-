@@ -25,9 +25,9 @@
 
 
     <fragment
-        android:id="@+id/navigation_arView"
-        android:name="com.example.findcoffee.ui.arView.ArViewFragment"
-        android:label="@string/title_arView"
-        tools:layout="@layout/fragment_explore" />
+        android:id="@+id/navigation_gameView"
+        android:name="com.example.findcoffee.ui.game.GameFragment"
+        android:label="@string/title_gameView"
+        tools:layout="@layout/fragment_game" />
 
 </navigation>

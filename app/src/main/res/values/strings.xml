@@ -5,7 +5,8 @@
 <!--    <string name="title_search">Search</string>-->
     <string name="title_explore">Explore</string>
     <string name="title_arView">AR View</string>
+    <string name="title_gameView">Game</string>
 <!--    <string name="title_explore">Explore</string>-->
-
+    <string name="email_sent">Play game</string>
     <string name="search_hint">Search here</string>
 </resources>

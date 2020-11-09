@@ -1,8 +1,14 @@
 package com.example.findcoffee.ui.arView;
 
+/**
+ * Created by: Xixiang Wu
+ * Date:       1/11/20.
+ * Email:      xixiangw@student.unimelb.edu.au
+ */
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.content.ContextCompat;
-
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
@@ -18,12 +24,20 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.SurfaceView;
+import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.example.findcoffee.R;
+import com.example.findcoffee.model.Shop;
+import com.example.findcoffee.model.ShopMapper;
+import com.example.findcoffee.model.User;
+
+import org.json.JSONException;
+
+import java.io.IOException;
 
 import static android.hardware.SensorManager.*;
 import static android.view.Surface.*;
@@ -32,24 +46,30 @@ import static android.view.Surface.ROTATION_270;
 
 public class ARActivity extends AppCompatActivity implements SensorEventListener, LocationListener {
 
+    /**
+     * The ARActivity is the main class for the AR activity.
+     * */
+
     final static String TAG = "ARActivity";
-    private SurfaceView surfaceView;
-    private FrameLayout cameraContainerLayout;
+
+    /* Views */
+    private SurfaceView   surfaceView;
+    private FrameLayout   cameraContainerLayout;
     private AROverlayView arOverlayView;
-    private Camera camera;
-    private ARCamera arCamera;
-    private TextView tvCurrentLocation;
-    private TextView tvBearing;
-
+    private Camera        camera;
+    private ARCamera      arCamera;
+    private TextView      CurrentLocationTextView;
+    private TextView      BearingTextView;
     private SensorManager sensorManager;
-    private final static int REQUEST_CAMERA_PERMISSIONS_CODE = 11;
-    public static final int REQUEST_LOCATION_PERMISSIONS_CODE = 0;
+    private Button        randomButton;
 
-    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0; // 10 meters
-    private static final long MIN_TIME_BW_UPDATES = 0;//1000 * 60 * 1; // 1 minute
+    private final static int  REQUEST_CAMERA_PERMISSIONS_CODE = 11;
+    private static final long MIN_DISTANCE_CHANGE_FOR_UPDATES = 0;
+    private static final long MIN_TIME_BW_UPDATES = 0;
+    public static final int   REQUEST_LOCATION_PERMISSIONS_CODE = 0;
 
     private LocationManager locationManager;
-    public Location location;
+    public  Location location;
     boolean isGPSEnabled;
     boolean isNetworkEnabled;
     boolean locationServiceAvailable;
@@ -60,12 +80,22 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ar);
 
-        sensorManager = (SensorManager) this.getSystemService(SENSOR_SERVICE);
-        cameraContainerLayout = findViewById(R.id.camera_container_layout);
-        surfaceView = findViewById(R.id.surface_view);
-        tvCurrentLocation = findViewById(R.id.tv_current_location);
-        tvBearing = findViewById(R.id.tv_bearing);
-        arOverlayView = new AROverlayView(this);
+        sensorManager           = (SensorManager) this.getSystemService(SENSOR_SERVICE);
+        cameraContainerLayout   = findViewById(R.id.camera_container_layout);
+        surfaceView             = findViewById(R.id.surface_view);
+        CurrentLocationTextView = findViewById(R.id.tv_current_location);
+        BearingTextView         = findViewById(R.id.tv_bearing);
+        randomButton            = findViewById(R.id.random_button);
+        arOverlayView           = new AROverlayView(this);
+
+        randomButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+            public void onClick(View view) {
+                arOverlayView.addShopData(ShopMapper.getInstance().retrieveRandomly());
+            }
+        });
+
     }
 
     @Override
@@ -108,10 +138,21 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String shopName = extras.getString("shop_name");
-            String shopLon  = extras.getString("shop_lon");
-            String shopLat  = extras.getString("shop_lat");
-            arOverlayView.addShopData(shopName, Double.valueOf(shopLat), Double.valueOf(shopLon), 0.0f);
+            final Shop shop = ShopMapper.getInstance().retrieveByName(extras.getString("shop_name"));
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        /* Ask to load the history from database, if applicable */
+                        shop.loadSeatsNum();
+                    } catch (JSONException | IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+
+            arOverlayView.addShopData(shop);
         }
 
         cameraContainerLayout.addView(arOverlayView);
@@ -170,6 +211,11 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
+
+        /**
+         * when sensor change detected, rotation the matrix by using the delta.
+         * TODO: This method will cause huge error when user is rapidly moving.
+         * */
         if (sensorEvent.sensor.getType() == Sensor.TYPE_ROTATION_VECTOR) {
             float[] rotationMatrixFromVector = new float[16];
             float[] rotationMatrix = new float[16];
@@ -205,11 +251,10 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
             Matrix.multiplyMM(rotatedProjectionMatrix, 0, projectionMatrix, 0, rotationMatrix, 0);
             this.arOverlayView.updateRotatedProjectionMatrix(rotatedProjectionMatrix);
 
-            //Heading
             float[] orientation = new float[3];
             getOrientation(rotatedProjectionMatrix, orientation);
             double bearing = Math.toDegrees(orientation[0]) + declination;
-            tvBearing.setText(String.format("Bearing: %s", bearing));
+            BearingTextView.setText(String.format("%s", bearing));
         }
     }
 
@@ -270,28 +315,21 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
     private void updateLatestLocation() {
         if (arOverlayView !=null && location != null) {
             arOverlayView.updateCurrentLocation(location);
-            tvCurrentLocation.setText(String.format("lat: %s \nlon: %s \naltitude: %s \n",
+            CurrentLocationTextView.setText(String.format("lat: %s \nlon: %s \naltitude: %s \n",
                     location.getLatitude(), location.getLongitude(), location.getAltitude()));
+            User.getInstance().updateLocation(location);
         }
     }
 
     @Override
-    public void onLocationChanged(Location location) {
-        updateLatestLocation();
-    }
+    public void onLocationChanged(Location location) {updateLatestLocation();}
 
     @Override
-    public void onStatusChanged(String s, int i, Bundle bundle) {
-
-    }
+    public void onStatusChanged(String s, int i, Bundle bundle) {}
 
     @Override
-    public void onProviderEnabled(String s) {
-
-    }
+    public void onProviderEnabled(String s) {}
 
     @Override
-    public void onProviderDisabled(String s) {
-
-    }
+    public void onProviderDisabled(String s) {}
 }

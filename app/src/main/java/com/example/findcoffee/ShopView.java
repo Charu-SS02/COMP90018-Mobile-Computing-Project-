@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -13,14 +12,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.findcoffee.ui.arView.ARActivity;
-import com.example.findcoffee.ui.arView.AROverlayView;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapFragment;
-import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -57,6 +52,9 @@ public class ShopView extends AppCompatActivity implements OnMapReadyCallback {
 
         String shopshopUser_rating = intent.getStringExtra("shopUser_rating");
         String shopshopTiming = intent.getStringExtra("shopTimings");
+        String menuURL = intent.getStringExtra("shopMenu_url");
+        String eventURL = intent.getStringExtra("shopEvents_url");
+        String storeURL = intent.getStringExtra("shopStoreUrl");
 
 //        String[] shopUser_photosUrl = intent.getStringArrayExtra("shopUser_photosUrl");
         String shopPrice_range = intent.getStringExtra("shopPrice_range");
@@ -66,6 +64,9 @@ public class ShopView extends AppCompatActivity implements OnMapReadyCallback {
         TextView shopAddress_View = (TextView) findViewById(R.id.textView_shopAddress);
         ImageView shopThumb_View = (ImageView) findViewById(R.id.image_coffee_thumb);
         TextView shopTiming = (TextView) findViewById(R.id.textView_ShopTiming);
+        TextView shopMenu = (TextView) findViewById(R.id.textView_ShopMenu);
+        TextView shopEvents = (TextView) findViewById(R.id.textView_Event);
+        TextView shopStore = (TextView) findViewById(R.id.textView_Store);
 
         TextView textView_ShopPrice = (TextView) findViewById(R.id.textView_ShopPrice);
 
@@ -88,12 +89,16 @@ public class ShopView extends AppCompatActivity implements OnMapReadyCallback {
 
         shopName_View.setText(shopName);
         shopAddress_View.setText(shopAddress);
+        shopMenu.setText(menuURL);
+        shopEvents.setText(eventURL);
+        shopStore.setText(storeURL);
 
         if(shopshopTiming.isEmpty()){
             shopTiming.setText("Not available");
         }else{
             shopTiming.setText(shopshopTiming);
         }
+
 //        Picasso.get().load(shopThumb).into(shopThumb_View);
 
         if (shopFeatured_image.isEmpty()){

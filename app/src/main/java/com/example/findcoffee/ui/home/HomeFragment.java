@@ -88,6 +88,12 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
 
     boolean locationCheck = false;
 
+    public static Fragment newInstance() {
+        HomeFragment homeFragment = new HomeFragment();
+        return homeFragment;
+    }
+
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -270,10 +276,23 @@ public class HomeFragment extends Fragment implements OnMapReadyCallback {
                 );
             }
 
-            data.add(new HomeViewModel(
-                    name,
-                    address,
-                    thumb,addressLon,addressLat,cuisines,featured_image,menu_url,photos_url,price_range,timings,storeUrl,events_url,aggregate_rating,dist
+            data.add(
+                    new HomeViewModel(
+                            name,
+                            address,
+                            thumb,
+                            addressLon,
+                            addressLat,
+                            cuisines,
+                            featured_image,
+                            menu_url,
+                            photos_url,
+                            price_range,
+                            timings,
+                            storeUrl,
+                            events_url,
+                            aggregate_rating,
+                            dist
             ));
         } catch (IOException e) {
             e.printStackTrace();
