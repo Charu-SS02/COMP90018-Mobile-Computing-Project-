@@ -392,7 +392,7 @@ public class GameFragment extends Fragment{
         headBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.head);
         bodyBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.body);
         tailBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.tail);
-        appleBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.apple);
+        appleBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.food);
 
         //scale the bitmaps to match the block size
         headBitmap = Bitmap.createScaledBitmap(headBitmap, blockSize, blockSize, false);
