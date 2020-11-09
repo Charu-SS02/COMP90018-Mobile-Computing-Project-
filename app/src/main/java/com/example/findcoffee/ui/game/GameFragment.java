@@ -36,68 +36,48 @@ import java.util.Random;
 public class GameFragment extends Fragment{
     Canvas canvas;
     SnakeGame game;
-    //the snake head sprite sheet
-    Bitmap headAnimBitmap;
-
-//    GameActivity.SnakeView snakeView;
-
-    Bitmap headBitmap;
-    Bitmap bodyBitmap;
-    Bitmap tailBitmap;
-    Bitmap appleBitmap;
-
-    //the portion of the bitmap to be drawn in the current frame
-    Rect rectToBeDrawn;
-
-    //The dimensions of  a single frame
-    int frameHeight = 64;
-    int frameWidth = 64;
-    int numFrames  = 6;
-    int frameNumber;
+    
+    Bitmap headContentBitmap;
+    Bitmap bodyContentBitmap;
+    Bitmap tailContentBitmap;
+    Bitmap foodContentBitmap;
 
     float x1, x2, y1, y2;
 
     int margin;
     int bottomMargin;
-    int screenWidth;
-    int screenHeight;
-    int [] snakeX;
-    int [] snakeY;
+    int actualWidth;
+    int actualHeight;
+    int [] snakeWidth;
+    int [] snakeHeight;
     int score;
 
     //stats
-    long lastFrameTime;
+    long recentFrameTime;
     int fps;
     int highScore;
-    int snakeLength;
-    int appleX;
-    int appleY;
+    int getLength;
+    int foodX;
+    int foodY;
 
     //The size in pixels of a place on the game board
-    int blockSize;
+    int quadSize;
     //new
     int width;
     int height;
 
     int direction = 0;
-
-
-    //to start the game from onTouchEvent
-    Intent i;
-
-
+    
+    
     @RequiresApi(api = Build.VERSION_CODES.N)
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_game, container, false);
-
         showAlertDialog();
-
-
+        
         configureDisplay();
         game = new SnakeGame(getActivity());
-
-
+        
         return game;
     }
 
@@ -107,11 +87,9 @@ public class GameFragment extends Fragment{
         alertDialog.show(fm, "fragment_alert");
     }
 
-
     @Override
     public void onStop() {
         super.onStop();
-
         while (true){
             game.pause();
             break;
@@ -131,49 +109,26 @@ public class GameFragment extends Fragment{
         super.onPause();
         game.pause();
     }
-
-
-    //for back press
-    public boolean onKeyDwon(int keyCode, KeyEvent event){
-        if (keyCode == KeyEvent.KEYCODE_BACK){
-            game.pause();
-            getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-            return true;
-        }
-        return false;
-    }
-
+    
+    
     @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     public void configureDisplay(){
         //find out the width and height of the screen
         Display display = ((Activity) Objects.requireNonNull(getContext())).getWindowManager().getDefaultDisplay();
         Point size = new Point();
         display.getSize(size);
-        screenWidth = size.x;
-        screenHeight = size.y;
-        margin = screenHeight/16;
-
-        bottomMargin = screenHeight/16;
-
-        //Determine the size of each block/place on the game board
-        blockSize = screenWidth/30;
-
-        //Determine how many game blocks will fit into the height and width
-        //Leave one block for the score at the top
+        actualWidth = size.x;
+        actualHeight = size.y;
+        margin = actualHeight/16;
+        bottomMargin = actualHeight/16;
+        quadSize = actualWidth/30;
         width = 30;
-        height = ((screenHeight - margin-bottomMargin ))/blockSize;
-
-        //Load and scale bitmaps
-        headBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.head);
-        bodyBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.body);
-        tailBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.tail);
-        appleBitmap = BitmapFactory.decodeResource(getResources(), R.drawable.food);
-
+        height = ((actualHeight - margin-bottomMargin ))/quadSize;
         //scale the bitmaps to match the block size
-        headBitmap = Bitmap.createScaledBitmap(headBitmap, blockSize, blockSize, false);
-        bodyBitmap = Bitmap.createScaledBitmap(bodyBitmap, blockSize, blockSize, false);
-        tailBitmap = Bitmap.createScaledBitmap(tailBitmap, blockSize, blockSize, false);
-        appleBitmap = Bitmap.createScaledBitmap(appleBitmap, blockSize*2, blockSize*2, false);
+        headContentBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.head), quadSize*2, quadSize*2, false);
+        bodyContentBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.body), quadSize*2, quadSize*2, false);
+        tailContentBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.body), quadSize*2, quadSize*2, false);
+        foodContentBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.coffee_cup_logo), quadSize*2, quadSize*2, false);
 
     }
 
@@ -182,25 +137,25 @@ public class GameFragment extends Fragment{
     {
 
         Thread thread = null;
-        SurfaceHolder ourHolder;
+        SurfaceHolder getSurfaceHolder;
         volatile boolean playingSnake;
         Paint paint;
 
         public SnakeGame(Context context) {
             super(context);
 
-            ourHolder = getHolder();
+            getSurfaceHolder = getHolder();
             paint = new Paint();
 
             //Even my 9 year old play tester couldn't
             //get a snake this long
-            snakeX = new int[200];
-            snakeY = new int[200];
+            snakeWidth = new int[200];
+            snakeHeight = new int[200];
 
             //our starting snake
-            newGame();
-            //get an apple to munch
-            newApple();
+            newGameStart();
+            //get an food to munch
+            newFood();
         }
 
 
@@ -208,17 +163,17 @@ public class GameFragment extends Fragment{
         public void run() {
 
             while (playingSnake){
-                update();
+                updateSnake();
                 Draw();
-                controlFPS();
+                configFPS();
             }
         }
 
 
         private void Draw() {
-//            Log.d("Game","Game"+ourHolder.getSurface().isValid());
-            if (ourHolder.getSurface().isValid()) {
-                canvas = ourHolder.lockCanvas();
+//            Log.d("Game","Game"+getSurfaceHolder.getSurface().isValid());
+            if (getSurfaceHolder.getSurface().isValid()) {
+                canvas = getSurfaceHolder.lockCanvas();
                 //Paint paint = new Paint();
                 canvas.drawColor(Color.WHITE);//the background
                 paint.setColor(Color.BLACK);
@@ -226,29 +181,28 @@ public class GameFragment extends Fragment{
                 canvas.drawText("Score:" + score , 10, margin-6, paint);
 
                 paint.setStrokeWidth(3);//4 pixel border
-                canvas.drawLine(1,margin,screenWidth-1,margin,paint);
-                canvas.drawLine(screenWidth-1, (height*blockSize)-margin-bottomMargin-10, 1, (height*blockSize)-margin-bottomMargin-10,paint);
-
+                canvas.drawLine(1,margin,actualWidth-1,margin,paint);
+                canvas.drawLine(actualWidth-1, (height*quadSize)-margin-bottomMargin-10, 1, (height*quadSize)-margin-bottomMargin-10,paint);
 
                 //Draw the snake
-                canvas.drawBitmap(headBitmap, snakeX[0]*blockSize, (snakeY[0]*blockSize)+margin, paint);
+                canvas.drawBitmap(headContentBitmap, snakeWidth[0]*quadSize, (snakeHeight[0]*quadSize)+margin, paint);
                 //Draw the body
-                for(int i = 1; i < snakeLength-1;i++){
-                    canvas.drawBitmap(bodyBitmap, snakeX[i]*blockSize, (snakeY[i]*blockSize)+margin, paint);
+                for(int i = 1; i < getLength-1;i++){
+                    canvas.drawBitmap(bodyContentBitmap, snakeWidth[i]*quadSize, (snakeHeight[i]*quadSize)+margin, paint);
                 }
                 //draw the tail
-                canvas.drawBitmap(tailBitmap, snakeX[snakeLength-1]*blockSize, (snakeY[snakeLength-1]*blockSize)+margin, paint);
+                canvas.drawBitmap(tailContentBitmap, snakeWidth[getLength-1]*quadSize, (snakeHeight[getLength-1]*quadSize)+margin, paint);
 
-                //draw the apple
-                canvas.drawBitmap(appleBitmap, appleX*blockSize, (appleY*blockSize)+margin, paint);
+                //draw the food
+                canvas.drawBitmap(foodContentBitmap, foodX*quadSize, (foodY*quadSize)+margin, paint);
 
-                ourHolder.unlockCanvasAndPost(canvas);
+                getSurfaceHolder.unlockCanvasAndPost(canvas);
             }
         }
 
-        private void controlFPS() {
+        private void configFPS() {
 
-            long frameTime = (System.currentTimeMillis() - lastFrameTime);
+            long frameTime = (System.currentTimeMillis() - recentFrameTime);
             long sleepTime = 100 - frameTime;
             if (frameTime > 0) {
                 fps = (int) (1000 / frameTime);
@@ -264,13 +218,13 @@ public class GameFragment extends Fragment{
 
             }
 
-            lastFrameTime = System.currentTimeMillis();
+            recentFrameTime = System.currentTimeMillis();
         }
 
-        public void update(){
-            if(appleX == snakeX[0] && appleY == snakeY[0]){
+        public void updateSnake(){
+            if(foodX == snakeWidth[0] && foodY == snakeHeight[0]){
                 snakeGrow();
-                newApple();
+                newFood();
             }
 
             moveSnakeBody();
@@ -279,10 +233,9 @@ public class GameFragment extends Fragment{
             if(isDead()){
 //                highScore = score;
                 score = 0;
-                newGame();
+                newGameStart();
             }
-
-
+            
         }
 
         public void pause(){
@@ -300,21 +253,21 @@ public class GameFragment extends Fragment{
             thread.start();
         }
 
-        public void newGame(){
-            snakeLength = 3;
+        public void newGameStart(){
+            getLength = 3;
             int midX = width/2;
             int midY = height/2;
-            for(int i = 0; i < snakeLength; i++){
-                snakeX[i] = midX;
-                snakeY[i] = midY-i;
+            for(int i = 0; i < getLength; i++){
+                snakeWidth[i] = midX;
+                snakeHeight[i] = midY-i;
             }
         }
 
         public boolean isDead(){
             boolean dead = false;
 
-            for (int i = snakeLength-1; i > 0; i--) {
-                if ((i > 4) && (snakeX[0] == snakeX[i]) && (snakeY[0] == snakeY[i])) {
+            for (int i = getLength-1; i > 0; i--) {
+                if ((i > 4) && (snakeWidth[0] == snakeWidth[i]) && (snakeHeight[0] == snakeHeight[i])) {
                     dead = true;
                 }
             }
@@ -325,71 +278,53 @@ public class GameFragment extends Fragment{
         public void moveSnakeHead(int direction){
             switch(direction){
                 case 0:
-                    snakeY[0] --;
+                    snakeHeight[0] --;
                     break;
 
                 case 1:
-                    snakeX[0] --;
+                    snakeWidth[0] --;
                     break;
 
                 case 2:
-                    snakeY[0] ++;
+                    snakeHeight[0] ++;
                     break;
 
                 case 3:
-                    snakeX[0] ++;
+                    snakeWidth[0] ++;
                     break;
             }
-            if(snakeX[0] >= width){
-                snakeX[0] = 1;
-            }else if(snakeX[0] <= 0){
-                snakeX[0] = width - 1;
+            if(snakeWidth[0] >= width){
+                snakeWidth[0] = 1;
+            }else if(snakeWidth[0] <= 0){
+                snakeWidth[0] = width - 1;
             }
-            if(snakeY[0] >= height -13){
-                snakeY[0] = 1;
-            }else if(snakeY[0] <= 0){
-                snakeY[0] = height - 14;
+            if(snakeHeight[0] >= height -13){
+                snakeHeight[0] = 1;
+            }else if(snakeHeight[0] <= 0){
+                snakeHeight[0] = height - 14;
             }
 
         }
 
         public void moveSnakeBody(){
-            for(int i=snakeLength; i >0 ; i--){
-                snakeX[i] = snakeX[i-1];
-                snakeY[i] = snakeY[i-1];
-//                if(snakeX[i] >= width){
-//                    snakeX[i] = 1;
-//                }else if(snakeX[i] <= 0){
-//                    snakeX[i] = width - 1;
-//                }
-//                if(snakeY[i] >= height){
-//                    snakeY[i] = 4;
-//                }else if(snakeY[i] <= 3){
-//                    snakeY[i] = height - 1;
-//                }
+            for(int i=getLength; i >0 ; i--){
+                snakeWidth[i] = snakeWidth[i-1];
+                snakeHeight[i] = snakeHeight[i-1];
             }
         }
-        public int getSnakeLength(){
-            return snakeLength;
-        }
+       
 
         public void snakeGrow(){
-            snakeLength += 1;
+            getLength += 1;
             score += 1;
         }
 
-        public void newApple(){
-            Random apple = new Random();
-            appleX = apple.nextInt(width-1)+1;
-            appleY = apple.nextInt(height-14)+1;
+        public void newFood(){
+            Random food = new Random();
+            foodX = food.nextInt(width-1)+1;
+            foodY = food.nextInt(height-14)+1;
         }
 
-        public void setDirection(int dir) {
-            direction = dir;
-        }
-        public int getDirection() {
-            return direction;
-        }
 
         @Override
         public boolean onTouchEvent(MotionEvent e) {
