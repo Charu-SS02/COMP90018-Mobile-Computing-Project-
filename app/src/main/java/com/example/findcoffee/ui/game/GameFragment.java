@@ -121,14 +121,14 @@ public class GameFragment extends Fragment{
         actualHeight = size.y;
         margin = actualHeight/16;
         bottomMargin = actualHeight/16;
-        quadSize = actualWidth/30;
-        width = 30;
+        quadSize = actualWidth/15;
+        width = 15;
         height = ((actualHeight - margin-bottomMargin ))/quadSize;
         //scale the bitmaps to match the block size
-        headContentBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.head), quadSize*2, quadSize*2, false);
-        bodyContentBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.body), quadSize*2, quadSize*2, false);
-        tailContentBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.body), quadSize*2, quadSize*2, false);
-        foodContentBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.coffee_cup_logo), quadSize*2, quadSize*2, false);
+        headContentBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.head), quadSize, quadSize, false);
+        bodyContentBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.body), quadSize, quadSize, false);
+        tailContentBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.body), quadSize, quadSize, false);
+        foodContentBitmap = Bitmap.createScaledBitmap(BitmapFactory.decodeResource(getResources(), R.drawable.coffee_cup_logo), quadSize, quadSize, false);
 
     }
 
@@ -294,14 +294,14 @@ public class GameFragment extends Fragment{
                     break;
             }
             if(snakeWidth[0] >= width){
-                snakeWidth[0] = 1;
-            }else if(snakeWidth[0] <= 0){
+                snakeWidth[0] = 0;
+            }else if(snakeWidth[0] < 0){
                 snakeWidth[0] = width - 1;
             }
-            if(snakeHeight[0] >= height -13){
-                snakeHeight[0] = 1;
-            }else if(snakeHeight[0] <= 0){
-                snakeHeight[0] = height - 14;
+            if(snakeHeight[0] >= height -6){
+                snakeHeight[0] = 0;
+            }else if(snakeHeight[0] < 0){
+                snakeHeight[0] = height - 7;
             }
 
         }
@@ -322,7 +322,7 @@ public class GameFragment extends Fragment{
         public void newFood(){
             Random food = new Random();
             foodX = food.nextInt(width-1)+1;
-            foodY = food.nextInt(height-14)+1;
+            foodY = food.nextInt(height-7)+1;
         }
 
 
