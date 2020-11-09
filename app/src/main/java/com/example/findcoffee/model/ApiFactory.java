@@ -20,6 +20,11 @@ import org.json.JSONObject;
 
 public class ApiFactory {
 
+    /**
+     * ApiFactory class is used for get api from URL. Please use Asynchronous method to call
+     * all the static methods.
+     * */
+
     /* read JSONArray from the Url and return back */
     public static JSONArray readJsonArrayFromUrl(String url) throws IOException, JSONException {
         InputStream is = new URL(url).openStream();
