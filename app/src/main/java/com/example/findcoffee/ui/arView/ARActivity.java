@@ -101,9 +101,12 @@ public class ARActivity extends AppCompatActivity implements SensorEventListener
     @Override
     public void onResume() {
         super.onResume();
+
+        /* Permission request TODO: BUG when first time open the app.*/
         requestCameraPermission();
         requestLocationPermission();
         registerSensors();
+
         initAROverlayView();
     }
 
