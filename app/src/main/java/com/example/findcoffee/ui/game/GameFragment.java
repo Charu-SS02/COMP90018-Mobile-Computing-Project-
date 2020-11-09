@@ -173,7 +173,7 @@ public class GameFragment extends Fragment{
         headBitmap = Bitmap.createScaledBitmap(headBitmap, blockSize, blockSize, false);
         bodyBitmap = Bitmap.createScaledBitmap(bodyBitmap, blockSize, blockSize, false);
         tailBitmap = Bitmap.createScaledBitmap(tailBitmap, blockSize, blockSize, false);
-        appleBitmap = Bitmap.createScaledBitmap(appleBitmap, blockSize, blockSize, false);
+        appleBitmap = Bitmap.createScaledBitmap(appleBitmap, blockSize*2, blockSize*2, false);
 
     }
 
