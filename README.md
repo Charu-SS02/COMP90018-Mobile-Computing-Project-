@@ -33,17 +33,17 @@ xixiangw.    xixiangw@student.unimelb.edu.au
 2. Run the *MainActivity* class.
 
 ### Background and strategic fit:
-- Development Environment: Android Studio
-- Language used: Java
-- Sensor Used:
-&nbsp;&nbsp;&nbsp;&nbsp;- GPS
-&nbsp;&nbsp;&nbsp;&nbsp;- Camera
-&nbsp;&nbsp;&nbsp;&nbsp;- Gyroscope
-&nbsp;&nbsp;&nbsp;&nbsp;- Touch
-- Access information from the internet/cloud: 
-&nbsp;&nbsp;&nbsp;&nbsp;- Zomato API https://developers.zomato.com/documentation , 
-&nbsp;&nbsp;&nbsp;&nbsp;- Google Maps API Google Maps
-&nbsp;&nbsp;&nbsp;&nbsp;- Melbourne CLUE database API feature
-- Innovative features: 
-&nbsp;&nbsp;&nbsp;&nbsp;- AR Integration
-&nbsp;&nbsp;&nbsp;&nbsp;- Mini game implementation (Snakes)
+- Development Environment: Android Studio  
+- Language used: Java  
+- Sensor Used:  
+&nbsp;&nbsp;&nbsp;&nbsp;- GPS  
+&nbsp;&nbsp;&nbsp;&nbsp;- Camera  
+&nbsp;&nbsp;&nbsp;&nbsp;- Gyroscope  
+&nbsp;&nbsp;&nbsp;&nbsp;- Touch  
+- Access information from the internet/cloud:   
+&nbsp;&nbsp;&nbsp;&nbsp;- Zomato API https://developers.zomato.com/documentation   
+&nbsp;&nbsp;&nbsp;&nbsp;- Google Maps API Google Maps  
+&nbsp;&nbsp;&nbsp;&nbsp;- Melbourne CLUE database API feature  
+- Innovative features:  
+&nbsp;&nbsp;&nbsp;&nbsp;- AR Integration  
+&nbsp;&nbsp;&nbsp;&nbsp;- Mini game implementation (Snakes)  
